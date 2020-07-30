@@ -1,0 +1,71 @@
+configuration {
+    icon-theme:        "Papirus";
+    font:              "Proxima Nova 20";
+    modi:              "run,drun";
+    show-icons:        true;
+}
+
+* {
+    background-color:               transparent;
+    background:                     #2E3440EE;
+    background-alt:                 #E5E9F0EE;
+    text-color:                     #D8DEE9;
+    selected-text-color:            #000000;
+    primary:                        #A3BE8C;
+    urgent:                         #BF616A;
+}
+
+window {
+    transparency:                   "real";
+    background-color:               @background;
+}
+
+prompt {
+    enabled:                        false;
+}
+
+entry {
+    padding:                        10px 10px 10px 10px;
+    background-color:               transparent;
+    border:                         0px 0px solid 2px 0px;
+    border-color:                   @background-alt;
+    font:                           "Proxima Nova 12";
+}
+
+mainbox {
+    padding:                        10px 40px 10px 40px;
+}
+
+element {
+    padding:                        8px;
+    // position:                       north;
+}
+
+element-icon {
+    position:                       north;
+    margin:                         100px 100px 0 0;
+}
+
+element normal.urgent, element alternate.urgent {
+    background-color:               @urgent;
+}
+
+element normal.active, element alternate.active {
+    background-color:               @background-alt;
+    color:                          @selected-text-color;
+}
+
+element selected {
+    background-color:               @background-alt;
+    color:                          @selected-text-color;
+}
+
+element selected.urgent {
+    background-color:               @urgent;
+}
+
+element selected.active {
+    background-color:               @background-alt;
+    color:                          @selected-text-color;
+}
+

@@ -1,0 +1,72 @@
+configuration {
+    theme:                          "config";
+    show-icons:                     true;
+}
+
+window {
+    height:                         512px;
+    width:                          910px;
+    location:                       center;
+    anchor:                         center;
+    x-offset:                       0;
+    y-offset:                       14;
+    border-radius:                  5px;
+    /* border:                         1px 1px solid 1px 1px; */
+    border-color:                   #22252B;
+}
+
+prompt {
+    enabled:                        false;
+}
+
+entry  {
+    expand:                         false;
+    width:                          20em;
+    margin:                         40px 40px 20px 40px;
+}
+
+listview {
+    columns:                        3;
+    margin:                         20px 40px 20px 40px;
+    lines:                          2;
+    layout:                         vertical;
+}
+
+element {
+    orientation:                    horizontal;
+    padding:                        8px;
+    margin:                         8px;
+    height:                         100px;
+    layout:                         vertical;
+}
+
+// element-icon {
+//     size:                           1.2ch;
+//     border:                         0px;
+// }
+//
+// element normal.urgent, element alternate.urgent {
+//     background-color:               @urgent;
+// }
+//
+// element normal.active, element alternate.active {
+//     background-color:               @background-alt;
+// }
+//
+// element selected {
+//     background-color:               @background;
+// }
+//
+// element selected.urgent {
+//     background-color:               @urgent;
+// }
+//
+// element selected.active {
+//     background-color:               @background;
+// }
+
+
+// element-text {
+//     expand:                         true;
+//     horizontal-align:               0.0;
+// }

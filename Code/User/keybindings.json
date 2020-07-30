@@ -1,0 +1,228 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "ctrl+alt+s",
+        "command": "workbench.action.files.saveAs"
+    },
+    {
+        "key": "ctrl+shift+s",
+        "command": "-workbench.action.files.saveAs"
+    },
+    {
+        "key": "ctrl+shift+s",
+        "command": "workbench.action.files.saveAll"
+    },
+    {
+        "key": "ctrl+alt+a",
+        "command": "editor.action.selectAll",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+a",
+        "command": "-editor.action.selectAll",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+a",
+        "command": "cursorHome"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "-workbench.action.quickOpen"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "cursorEnd"
+    },
+    {
+        "key": "ctrl+o",
+        "command": "-workbench.action.files.openFile"
+    },
+    {
+        "key": "ctrl+o",
+        "command": "workbench.action.openRecent"
+    },
+    {
+        "key": "ctrl+shift+d",
+        "command": "editor.action.copyLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+alt+down",
+        "command": "-editor.action.copyLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+g",
+        "command": "cursorTop"
+    },
+    {
+        "key": "ctrl+alt+g",
+        "command": "cursorBottom"
+    },
+    {
+        "key": "ctrl+shift+g",
+        "command": "-workbench.view.scm"
+    },
+    {
+        "key": "ctrl+k ctrl+v",
+        "command": "markdown.showPreviewToSide",
+        "when": "editorLangId == 'markdown'"
+    },
+    {
+        "key": "ctrl+k v",
+        "command": "-markdown.showPreviewToSide",
+        "when": "editorLangId == 'markdown'"
+    },
+    {
+        "key": "ctrl+alt+b",
+        "command": "workbench.action.tasks.runTask"
+    },
+    {
+        "key": "alt+e",
+        "command": "C_Cpp.SwitchHeaderSource",
+        "when": "editorTextFocus && editorLangId == 'c'"
+    },
+    {
+        "key": "alt+o",
+        "command": "-C_Cpp.SwitchHeaderSource",
+        "when": "editorTextFocus && editorLangId == 'c'"
+    },
+    {
+        "key": "alt+e",
+        "command": "C_Cpp.SwitchHeaderSource",
+        "when": "editorTextFocus && editorLangId == 'cpp'"
+    },
+    {
+        "key": "alt+o",
+        "command": "-C_Cpp.SwitchHeaderSource",
+        "when": "editorTextFocus && editorLangId == 'cpp'"
+    },
+    {
+        "key": "alt+e",
+        "command": "extension.switch"
+    },
+    {
+        "key": "alt+o",
+        "command": "-extension.switch"
+    },
+    {
+        "key": "shift+f2",
+        "command": "editor.action.marker.next",
+        "when": "editorFocus"
+    },
+    {
+        "key": "alt+f8",
+        "command": "editor.action.marker.next",
+        "when": "editorFocus"
+    },
+    {
+        "key": "ctrl+k ctrl+z",
+        "command": "workbench.action.toggleZenMode"
+    },
+    {
+        "key": "ctrl+k z",
+        "command": "-workbench.action.toggleZenMode"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-workbench.action.openRecent"
+    },
+    {
+        "key": "ctrl+q",
+        "command": "editor.action.jumpToBracket"
+    },
+    {
+        "key": "ctrl+q",
+        "command": "-workbench.action.quit"
+    },
+    {
+        "key": "f4",
+        "command": "editor.debug.action.runToCursor",
+    },
+    {
+        "key": "ctrl+shift+w",
+        "command": "-workbench.action.closeWindow"
+    },
+    {
+        "key": "ctrl+shift+r",
+        "command": "-editor.action.refactor",
+        "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+shift+r",
+        "command": "workbench.action.tasks.runTask",
+        "args": "run"
+    },
+    {
+        "key": "ctrl+shift+c",
+        "command": "-workbench.action.terminal.openNativeConsole",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+shift+c",
+        "command": "workbench.action.tasks.terminate",
+        "when": "editorFocus"
+    },
+    {
+        "key": "F4", // key to press to activate command
+        "command": "settings.cycle", // `settings.cycle` is the command that's actually being run, from the extension `hoovercj.vscode-settings-cycler`
+        "when": "editorTextFocus && editorLangId == 'rust'", // this keybinding is only active when (editor is in focus) and (the language is `rust`)
+        "args": { // these are the arguments passed to `settings.cycle`
+            "id": "rust-toggle-inlay-parameter-hints", // must be unique
+            "overrideWorkspaceSettings": true,
+            "values": [ // Note: use the same settings in each values object
+                {
+                    "rust-analyzer.inlayHints.parameterHints": false // sets the inlay hints off
+                },
+                {
+                    "rust-analyzer.inlayHints.parameterHints": true // sets the inlay hints on
+                }
+            ]
+        }
+    },
+    {
+        "key": "F3", // key to press to activate command
+        "command": "settings.cycle", // `settings.cycle` is the command that's actually being run, from the extension `hoovercj.vscode-settings-cycler`
+        "when": "editorTextFocus && editorLangId == 'rust'", // this keybinding is only active when (editor is in focus) and (the language is `rust`)
+        "args": { // these are the arguments passed to `settings.cycle`
+            "id": "rust-toggle-inlay-type-hints", // must be unique
+            "overrideWorkspaceSettings": true,
+            "values": [ // Note: use the same settings in each values object
+                {
+                    "rust-analyzer.inlayHints.typeHints": true
+                },
+                {
+                    "rust-analyzer.inlayHints.typeHints": false
+                }
+            ]
+        }
+    },
+    {
+        "key": "ctrl+r",
+        "command": "workbench.action.reloadWindow"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-workbench.action.reloadWindow",
+        "when": "isDevelopment"
+    },
+    {
+        "key": "ctrl+shift+alt+c",
+        "command": "extension.changeCase.pascal"
+    },
+    {
+        "key": "ctrl+alt+c",
+        "command": "extension.changeCase.camel"
+    },
+    {
+        "key": "ctrl+shift+7",
+        "command": "editor.action.commentLine",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+/",
+        "command": "-editor.action.commentLine",
+        "when": "editorTextFocus && !editorReadonly"
+    }
+]

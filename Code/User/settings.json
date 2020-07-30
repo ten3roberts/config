@@ -1,0 +1,82 @@
+{
+    "todo-tree.tree.showScanModeButton": false,
+    "explorer.confirmDragAndDrop": false,
+    "[c]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "debug.onTaskErrors": "abort",
+    "window.restoreWindows": "none",
+    "editor.wrappingIndent": "deepIndent",
+    "editor.wordWrapColumn": 1000,
+    "debug.console.wordWrap": false,
+    "[markdown]": {
+        "editor.wordWrap": "off"
+    },
+    "editor.suggest.localityBonus": true,
+    "editor.fontLigatures": true,
+    "task.problemMatchers.neverPrompt": {
+        "shell": true
+    },
+    "files.associations": {
+        "*.h": "c",
+        "*.sq": "squirrel"
+    },
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.currentLine.enabled": false,
+    "window.menuBarVisibility": "hidden",
+    "explorer.incrementalNaming": "smart",
+    "zentabs.maximumOpenedTabs": 5,
+    "C_Cpp.suggestSnippets": false,
+    "editor.minimap.maxColumn": 80,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "workbench.editor.openPositioning": "last",
+    "editor.cursorSurroundingLines": 5,
+    "editor.wordWrap": "on",
+    "editor.fontFamily": "'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "editor.acceptSuggestionOnEnter": "smart",
+    "breadcrumbs.showArrays": false,
+    "cmake.configureOnOpen": true,
+    "csharp.referencesCodeLens.enabled": false,
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "typescript.suggest.paths": false,
+    "editor.snippetSuggestions": "bottom",
+    "editor.fontSize": 16,
+    "debug.allowBreakpointsEverywhere": true,
+    "editor.roundedSelection": false,
+    "rust-analyzer.inlayHints.maxLength": 15,
+    "editor.copyWithSyntaxHighlighting": false,
+    "rust-analyzer.inlayHints.enable": true,
+    "rust-analyzer.lens.implementations": false,
+    "bracket-pair-colorizer-2.colors": [
+        "Crimson",
+        "Orchid",
+        "Magenta"
+    ],
+    "editor.detectIndentation": false,
+    "workbench.panel.defaultLocation": "right",
+    "rust-analyzer.inlayHints.parameterHints": false,
+    "rust-analyzer.inlayHints.typeHints": false,
+    "rust-analyzer.inlayHints.chainingHints": false,
+    "window.zoomLevel": 0,
+    "editor.showUnused": false,
+    "workbench.activityBar.visible": true,
+    "customizeUI.activityBar": "bottom",
+    "editor.renderLineHighlight": "all",
+    "workbench.sash.size": 6,
+    "workbench.colorTheme": "Atom One Dark",
+    "workbench.iconTheme": "material-icon-theme",
+    // "keyboard.dispatch": "keyCode",
+    "editor.minimap.size": "fill",
+    "editor.minimap.renderCharacters": false,
+    "editor.formatOnSave": true,
+    "breadcrumbs.showFields": false,
+    "editor.largeFileOptimizations": false
+}

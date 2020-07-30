@@ -1,0 +1,235 @@
+;---------------------------
+; Polybar config by Dolly ;)
+;---------------------------
+
+[colors]
+background = #292d32
+background-alt = #434759
+foreground = #959dcb
+foreground-alt = #d0d0d0
+black = #434759
+red = #f07178
+green = #c3e88d
+yellow = #ffcb6b
+blue = #82aaff
+purple = #c792ea
+cyan = #89ddff
+white = #d0d0d0
+
+[bar/bar]
+override-redirect = true
+wm-restack = bspwm
+width = 100%
+height = 16
+fixed-center = true
+bottom = false
+background = ${colors.background}
+foreground = ${colors.foreground}
+line-size = 0
+border-size = 4
+border-color = ${colors.background}
+padding-left = 0
+padding-right = 0
+module-margin-left = 1
+module-margin-right = 1
+locale = en_US.UTF-8
+font-0 = Inconsolata:size=10;1
+font-1 = fontawesome:size=10;2
+modules-left = bspwm space xwindow
+modules-center = clock ;; search shot browser fm editor music
+modules-right = wlan eth xkeyboard volume battery clock powermenu
+
+[module/space]
+type = custom/text
+content = " "
+[module/bspwm]
+type = internal/bspwm
+
+ws-icon-font = 1
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-default = 
+
+label-focused = %icon%
+label-focused-background = ${colors.background-alt}
+; label-focused-foreground = ${colors.background}
+; label-focused-underline= ${colors.cyan}
+label-focused-padding = 1
+label-occupied = %icon%
+label-occupied-foreground = ${colors.foreground-alt}
+; label-occupied-background = ${colors.background-alt}
+label-occupied-padding = 1
+label-urgent = %icon%
+label-urgent-foreground = ${colors.red}
+label-urgent-padding = 1
+label-empty = %icon%
+label-empty-foreground = ${colors.foreground}
+label-empty-padding = 1
+pin-workspaces = true
+fuzzy-match = true
+
+[module/xwindow]
+type = internal/xwindow
+label = %{A1:rofi -config $HOME/.config/rofi/config_bspwm -width 27 -show window:}%{A3:bspc node -c:}%title:0:40:...%%{A}%{A}
+
+[module/search]
+type = custom/text
+content = "    "
+content-foreground = ${colors.purple}
+click-left = catfish --large-icons --thumbnails &
+
+[module/shot]
+type = custom/text
+content = "    "
+content-foreground = ${colors.green}
+click-left = flameshot gui &
+
+[module/browser]
+type = custom/text
+content = "    "
+content-foreground = ${colors.blue}
+click-left = firefox &
+
+[module/fm]
+type = custom/text
+content = "    "
+content-foreground = ${colors.yellow}
+click-left = thunar &
+
+[module/editor]
+type = custom/text
+content = "    "
+content-foreground = ${colors.cyan}
+click-left = /opt/sublime_text/sublime_text &
+click-right = code &
+
+[module/music]
+type = custom/text
+content = "    "
+content-foreground = ${colors.red}
+click-left = $TERMINAL -e ncmpcpp &
+click-right = audacious &
+
+[module/eth]
+type = internal/network
+interface = enp0s25
+interval = 3.0
+format-connected = <label-connected>
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+format-disconnected = <label-disconnected>
+label-connected = %{A1:nmcli-rofi:}%downspeed%%{A}
+label-connected-foreground = ${colors.foreground}
+label-disconnected =
+format-connected-padding = 1
+
+[module/wlan]
+type = internal/network
+interface = wlo1
+interval = 3.0
+format-connected = <label-connected>
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+format-disconnected = <label-disconnected>
+label-connected = %{A1:nmcli-rofi:}%downspeed%%{A}
+label-connected-foreground = ${colors.foreground}
+label-disconnected =  N/A
+label-disconnected-foreground = ${colors.foreground-alt}
+format-connected-padding = 1
+format-disconnected-padding = 1
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+label-layout = %layout%
+label-indicator-padding = 1
+label-indicator-margin = 1
+label-indicator-foreground = ${colors.red}
+label-indicator-background = ${colors.background}
+
+[module/volume]
+type = internal/alsa
+format-volume = <ramp-volume> <label-volume>
+label-volume = %percentage%%
+label-volume-foreground = ${root.foreground}
+format-muted = <label-muted>
+format-muted-foreground = ${colors.foreground-alt}
+label-muted =  mute
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-foreground = ${colors.foreground-alt}
+format-volume-padding = 1
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 98
+format-charging = <animation-charging> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+format-full-prefix = " "
+format-full-prefix-foreground = ${colors.blue}
+ramp-capacity-0 = 
+ramp-capacity-0-foreground = ${colors.red}
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-foreground = ${colors.foreground-alt}
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-foreground = ${colors.foreground-alt}
+animation-charging-framerate = 750
+format-discharging-padding = 1
+format-charging-padding = 1
+format-full-padding = 1
+
+[module/clock]
+type = custom/script
+interval = 5
+exec = echo "$(date +%R)"
+format = <label>
+format-prefix = " "
+format-prefix-foreground = ${colors.yellow}
+label = %{A1:gsimplecal &:}%output%%{A}
+label-foreground = ${colors.yellow}
+format-padding = 1
+
+[module/powermenu]
+type = custom/menu
+format-spacing = 1
+format-padding = 1
+label-open = 
+label-open-font = 2
+label-open-foreground = ${colors.red}
+label-close = 
+label-close-foreground = ${colors.foreground}
+label-separator = " "
+label-separator-foreground = ${colors.foreground-alt}
+menu-0-0 = 
+menu-0-0-foreground = ${colors.blue}
+menu-0-0-exec = menu-open-1
+menu-0-1 = 
+menu-0-1-foreground = ${colors.red}
+menu-0-1-exec = menu-open-2
+menu-1-0 = Reboot?
+menu-1-0-exec = bspc quit && /sbin/reboot &
+menu-1-1 = 
+menu-1-1-exec = menu-open-0
+menu-2-0 = 
+menu-2-0-exec = menu-open-0
+menu-2-1 = Shut down?
+menu-2-1-exec = bspc quit && /sbin/poweroff &
+
+[settings]
+screenchange-reload = true
