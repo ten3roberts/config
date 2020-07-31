@@ -20,23 +20,22 @@ white = #d0d0d0
 override-redirect = true
 wm-restack = bspwm
 width = 100%
-height = 16
+height = 22
 fixed-center = true
 bottom = false
 background = ${colors.background}
 foreground = ${colors.foreground}
-line-size = 0
-border-size = 4
+line-size = 2
 border-color = ${colors.background}
 padding-left = 0
 padding-right = 0
 module-margin-left = 1
 module-margin-right = 1
 locale = en_US.UTF-8
-font-0 = Inconsolata:size=10;1
+font-0 = Inconsolata:size=11;1
 font-1 = fontawesome:size=10;2
-modules-left = bspwm space xwindow
-modules-center = clock ;; search shot browser fm editor music
+modules-left = bspwm tabs
+modules-center = clock
 modules-right = wlan eth xkeyboard volume battery clock powermenu
 
 [module/space]
@@ -57,6 +56,8 @@ ws-icon-default = 
 
 label-focused = %icon%
 label-focused-background = ${colors.background-alt}
+label-focused-underline = ${colors.red}
+
 ; label-focused-foreground = ${colors.background}
 ; label-focused-underline= ${colors.cyan}
 label-focused-padding = 1
@@ -73,9 +74,15 @@ label-empty-padding = 1
 pin-workspaces = true
 fuzzy-match = true
 
+[module/tabs]
+type = custom/script
+exec = ~/.config/polybar/tabs.sh '#c3e88d' '#d0d0d0'
+interval = 1
+
 [module/xwindow]
 type = internal/xwindow
 label = %{A1:rofi -config $HOME/.config/rofi/config_bspwm -width 27 -show window:}%{A3:bspc node -c:}%title:0:40:...%%{A}%{A}
+format-underline = ${colors.blue}
 
 [module/search]
 type = custom/text
@@ -127,6 +134,7 @@ label-connected = %{A1:nmcli-rofi:}%downspeed%%{A}
 label-connected-foreground = ${colors.foreground}
 label-disconnected =
 format-connected-padding = 1
+click-left = ~/.config/rofi/scripts/network.sh
 
 [module/wlan]
 type = internal/network
@@ -146,7 +154,7 @@ format-disconnected-padding = 1
 [module/xkeyboard]
 type = internal/xkeyboard
 blacklist-0 = num lock
-format-prefix = " "
+format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 label-layout = %layout%
 label-indicator-padding = 1
@@ -166,6 +174,7 @@ ramp-volume-0 = 
 ramp-volume-1 = 
 ramp-volume-foreground = ${colors.foreground-alt}
 format-volume-padding = 1
+click-right = ~/.config/rofi/scripts/volume.sh
 
 [module/battery]
 type = internal/battery
@@ -195,41 +204,46 @@ format-charging-padding = 1
 format-full-padding = 1
 
 [module/clock]
-type = custom/script
-interval = 5
-exec = echo "$(date +%R)"
-format = <label>
+type = internal/date
+interval = 1
+
+date = %a %d %b
+date-alt = "W.%V %Y-%m-%d"
+
+time = %H:%M
+time-alt = %H:%M:%S
+
 format-prefix = " "
 format-prefix-foreground = ${colors.yellow}
-label = %{A1:gsimplecal &:}%output%%{A}
-label-foreground = ${colors.yellow}
-format-padding = 1
+format-foreground = ${colors.yellow}
+click-left = ~/.config/rofi/scripts/time.sh
+
+label = %date% %time%
 
 [module/powermenu]
-type = custom/menu
-format-spacing = 1
-format-padding = 1
-label-open = 
-label-open-font = 2
-label-open-foreground = ${colors.red}
-label-close = 
-label-close-foreground = ${colors.foreground}
-label-separator = " "
-label-separator-foreground = ${colors.foreground-alt}
-menu-0-0 = 
-menu-0-0-foreground = ${colors.blue}
-menu-0-0-exec = menu-open-1
-menu-0-1 = 
-menu-0-1-foreground = ${colors.red}
-menu-0-1-exec = menu-open-2
-menu-1-0 = Reboot?
-menu-1-0-exec = bspc quit && /sbin/reboot &
-menu-1-1 = 
-menu-1-1-exec = menu-open-0
-menu-2-0 = 
-menu-2-0-exec = menu-open-0
-menu-2-1 = Shut down?
-menu-2-1-exec = bspc quit && /sbin/poweroff &
+type = custom/text
+content-padding = 1
+content = 
+content-background = ${colors.red}
+content-foreground = ${colors.white}
+click-left = ~/.config/rofi/scripts/powermenu.sh
+
+; label-open = 
+; label-open-font = 2
+; label-open-foreground = ${colors.red}
+; label-close = 
+; label-close-foreground = ${colors.foreground}
+; label-separator = " "
+; label-separator-foreground = ${colors.foreground-alt}
+; menu-0-0 = 
+; menu-0-0-foreground = ${colors.blue}
+; menu-0-0-exec = menu-open-1
+; menu-0-1 = 
+; menu-0-1-foreground = ${colors.red}
+; menu-0-1-exec = menu-open-2
+; menu-1-0 = Reboot?
+; menu-1-0-exec = bspc quit && /sbin/reboot &
+; menu-1-1 =  = bspc quit && /sbin/poweroff &
 
 [settings]
 screenchange-reload = true
