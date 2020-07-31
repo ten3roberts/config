@@ -3,6 +3,9 @@ HISTSIZE=1000
 SAVEHIST=1000
 bindkey -e
 
+# Load wal theme
+(cat ~/.cache/wal/sequences &)
+
 # oh-my-zsh
 
 
