@@ -35,8 +35,8 @@ locale = en_US.UTF-8
 font-0 = Inconsolata:size=11;1
 font-1 = fontawesome:size=10;2
 modules-left = bspwm tabs
-modules-center = clock
-modules-right = wlan eth xkeyboard volume battery clock powermenu
+modules-center =
+modules-right = layout wlan eth xkeyboard volume battery clock powermenu
 
 [module/space]
 type = custom/text
@@ -78,6 +78,13 @@ fuzzy-match = true
 type = custom/script
 exec = ~/.config/polybar/tabs.sh '#c3e88d' '#d0d0d0'
 interval = 1
+
+[module/layout]
+type = custom/script
+exec = ~/.config/polybar/layout.sh display
+click-left = ~/.config/polybar/layout.sh next
+click-right = ~/.config/polybar/layout.sh prev
+interval = 0
 
 [module/xwindow]
 type = internal/xwindow
