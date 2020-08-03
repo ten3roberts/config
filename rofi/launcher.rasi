@@ -35,7 +35,7 @@ configuration {
   entry-padding:                        10px 0px 10px 0px;
   list-element-padding:                 10px;
   list-element-margin:                  @inputbar-margin;
-  list-element-border:                  0px 4px 0px 4px;
+  list-element-border:                  0px 0px 0px 4px;
 
   apps-textbox-prompt-colon-padding:    10px -5px 0px 0px;
 }
@@ -44,8 +44,6 @@ configuration {
   width: 50%;
   height: 60%;
   padding: 40px 40px;
-  border: 0px;
-  border-radius: 14px;
 }
 
 * {
@@ -59,8 +57,6 @@ prompt,
 textbox-prompt-colon,
 entry {
   background-color: @background-light;
-  border: 0px;
-  border-radius: 10px;
 }
 
 #inputbar {
@@ -91,12 +87,10 @@ entry {
   border: @list-element-border;
   background-color: @background-light;
   border-color: @background-light;
-  border-radius: 10px;
 }
 
 #element.selected {
   background-color: @background-focus;
   text-color: @accent;
   border-color: @accent;
-  border-radius: 10px;
 }

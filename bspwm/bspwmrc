@@ -34,7 +34,7 @@ bspc config split_ratio          0.618
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 bspc config single_monocle       true
-bspc config honor_size_hints     true
+bspc config honor_size_hints     false
 
 # Remove all rules first
 bspc rule -r *:*
@@ -68,6 +68,7 @@ bspc rule -a factorio desktop='^5' follow=off
 bspc rule -a Plank layer=above manage=on border=off
 
 # Autostart
-# sleep 3
+sleep 3
 $HOME/.scripts/setbg -R
 # $HOME/.scripts/settheme -R
+ckb-next -b &

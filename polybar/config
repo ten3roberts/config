@@ -81,9 +81,9 @@ interval = 1
 
 [module/layout]
 type = custom/script
-exec = ~/.config/polybar/layout.sh display
-click-left = ~/.config/polybar/layout.sh next
-click-right = ~/.config/polybar/layout.sh prev
+exec = ~/.scripts/layout.sh display
+click-left = ~/.scripts/layout.sh next
+click-right = ~/.scripts/layout.sh prev
 interval = 0
 
 [module/xwindow]

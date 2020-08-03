@@ -15,6 +15,8 @@ super + ctrl + a
 	atom
 ctrl+ + shift + Escape
 	lxtask
+super + ctrl + e
+	ec
 
 #Scrot
 Print
@@ -28,10 +30,10 @@ XF86AudioMute
 
 ### Master Volume
 XF86AudioRaiseVolume
-	amixer sset Master 2%+; 
+	amixer sset Master 2%+;
 
 XF86AudioLowerVolume
-	amixer sset Master 2%-; 
+	amixer sset Master 2%-;
 # MEDIA
 XF86AudioPlay
 	playerctl play-pause
@@ -40,7 +42,7 @@ XF86AudioPrev
 	playerctl previous
 
 XF86AudioNext
-	playerctl next	
+	playerctl next
 
 # BRIGHTNESS
 
@@ -94,7 +96,7 @@ super + m
 
 # if the current node is automatic, send it to the last manual, otherwise pull the last leaf
 #super + y
-#	bspc query -N -n focused.automatic && bspc node -n last.!automatic || bspc node last.leaf -n focused
+#   bspc query -N -n focused.automatic && bspc node -n last.!automatic || bspc node last.leaf -n focused
 
 # swap the current node and the biggest node
 super + g
@@ -108,7 +110,7 @@ super + shift + f
 super + {_,shift + } r
 	bspc node -R {90,180}
 
-#	bspc node @/ -R 90
+#   bspc node @/ -R 90
 
 #
 # state/flags
@@ -200,3 +202,10 @@ super + ctrl + shift + {h,j,k,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-50 0,0 50,0 -50,50 0}
+
+# State for the whole desktop
+super + alt + m
+	bsp-layout set tall
+
+super + alt + t
+	bsp-layout set tiled
