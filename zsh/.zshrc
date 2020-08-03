@@ -19,33 +19,10 @@ bindkey -e
 
 setopt nobanghist
 
-source $HOME/.config/zsh/oh-my-zshrc
-source $HOME/.config/zsh/antigen.zsh
-
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
-
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle pip
-antigen bundle zsh-users/zsh-syntax-highlighting
-# antigen bundle zsh-history-substring-search
-# antigen bundle zsh-users/zsh-autosuggestions
-
-# Syntax highlighting bundle.
-
-# Load the theme.
-antigen theme robbyrussell
-
-# Tell Antigen that you're done.
-antigen apply
-
 unsetopt auto_cd
 
 
-zstyle :compinstall filename '/home/ten3roberts/.zshrc'
 
-autoload -Uz compinit
-compinit
 # End of lines added by compinstall
 
 
@@ -61,7 +38,6 @@ git_prompt() {
 setopt prompt_subst
 
 # Configure Shell state
-
 PS1='%F{white}%F{10}%n%F{white} %F{blue}%3~%F{white}$(git_prompt)%F{white}%(?.%F{white}.%F{red})>%F{white} '
 
 
@@ -105,9 +81,6 @@ alias l='ls -F'
 alias ll='ls -lhF'
 alias cl="clear"
 
-# Vim remove cache
-alias vimrmc='rm $HOME/.cache/vim/swap/*'
-
 # For config file access
 alias bspwmrc="$EDITOR $HOME/.config/bspwm/bspwmrc"
 alias sxhkdrc="$EDITOR $HOME/.config/sxhkd/sxhkdrc"
@@ -128,8 +101,13 @@ alias graph='git log --graph --all --abbrev-commit'
 alias subupdate='git submodule foreach git pull origin master'
 alias status='git status'
 alias branch='git checkout'
-alias gs='git status'
 
+alias gc='git commit'
+alias ga='git add -v'
+alias gp='git push'
+alias gl='git log --oneline'
+alias gpl='git pull'
+alias gs='git status'
 
 alias remote='ssh timmer@dsu.uk.to'
 
@@ -159,3 +137,5 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
 
+# Load syntax highlighting
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
