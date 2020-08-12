@@ -8,6 +8,7 @@ xrandr --output HDMI-0 --primary --left-of DVI-D-0
 sxhkd &
 
 xset r rate 250 50
+setxkbmap se
 setxkbmap -option caps:escape
 
 dunst &
@@ -15,8 +16,6 @@ dunst &
 killall -q picom
 picom &
 
-killall -q polybar
-polybar bar &
 pulseaudio &
 
 # Set primary monitor
@@ -30,11 +29,12 @@ bspc config border_width         2
 bspc config window_gap           6
 bspc config top_padding          24 
 
-bspc config split_ratio          0.618
+bspc config split_ratio          0.5
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 bspc config single_monocle       true
 bspc config honor_size_hints     false
+bspc config swallow_first_click  false
 
 # Remove all rules first
 bspc rule -r *:*
@@ -68,7 +68,14 @@ bspc rule -a factorio desktop='^5' follow=off
 bspc rule -a Plank layer=above manage=on border=off
 
 # Autostart
+killall polybar
 sleep 3
 $HOME/.scripts/setbg -R
 # $HOME/.scripts/settheme -R
 ckb-next -b &
+polybar bar &
+redshift-gtk &
+# spotifyd --no-daemon &
+
+# Set mouse acceleration
+maccel "G403" -1

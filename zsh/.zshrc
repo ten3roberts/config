@@ -10,14 +10,14 @@ bindkey -e
 
 
 # Ignore duplicate entries in history
-# setopt hist_ignore_all_dups
+setopt hist_ignore_all_dups
 
-# Autologin
-# if [[ "$(tty)" == "/dev/tty1" ]]; then
-# 	prgep xinit || xinit
-# fi
+# Autostart X on tty1
+if [[ "$(tty)" == "/dev/tty1" ]]; then
+        prgep xinit || xinit
+fi
 
-setopt nobanghist
+# setopt nobanghist
 
 unsetopt auto_cd
 
@@ -121,14 +121,7 @@ alias esync='~/.emacs.d/bin/doom sync'
 alias doom='~/.emacs.d/bin/doom'
 alias e='emacsclient -nw -a ""'
 
-ec() {
-    emacsclient -n -e "(if (> (length (frame-list)) 1) 't)" | grep -q t
-    if [ "$?" = "1" ]; then
-        emacsclient -c -n -a "" "$@"
-    else
-        emacsclient -n -a "" "$@"
-    fi
-}
+alias spt='spotify-tui'
 
 # Basic auto/tab complete:
 autoload -U compinit
