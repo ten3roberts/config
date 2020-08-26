@@ -21,11 +21,6 @@ fi
 
 unsetopt auto_cd
 
-
-
-# End of lines added by compinstall
-
-
 # Git
 git_prompt() {
         changes=`git status --porcelain | wc -l` > /dev/null 2>/dev/null
