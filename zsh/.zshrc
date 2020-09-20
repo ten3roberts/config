@@ -35,7 +35,6 @@ setopt prompt_subst
 # Configure Shell state
 PS1='%F{white}%F{10}%n%F{white} %F{blue}%3~%F{white}$(git_prompt)%F{white}%(?.%F{white}.%F{red})>%F{white} '
 
-
 # Bind Ctrl+x to open CLI edit in $EDITOR
 export KEYTIMEOUT=1
 autoload edit-command-line; zle -N edit-command-line
@@ -58,14 +57,8 @@ bindkey '\e[1;5D' backward-word           # C-Left
 # Helper functions
 mkcd() { mkdir -p "$@" && cd "$1" }
 conf() { $EDITOR $(find .config -maxdepth 2 -type f | fzf) }
-# Quick movement functions
-# d() { cd $(du -a ~/dev -d 1 | awk '{print $2}' | sed "s|~|$HOME|g" | fzf) }
-# rs() { cd $(du -a ~/dev/rust -d 1 | awk '{print $2}' | sed "s|~|$HOME|g" | fzf) }
-
-
-
-d() { cd ~/dev/$1 }
-rs() { cd ~/dev/rust/$1 }
+# Quick movement aliases
+alias d='cd `find -maxdepth 3 -type d | fzf` && exa'
 
 # Aliases
 alias ls='ls --color=auto'
@@ -127,3 +120,5 @@ _comp_options+=(globdots)
 
 # Load syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
