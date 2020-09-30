@@ -17,6 +17,10 @@ if [[ "$(tty)" == "/dev/tty1" ]]; then
         prgep xinit || xinit
 fi
 
+function chpwd {
+    set_title "Terminal - `basename $PWD`"
+}
+
 # setopt nobanghist
 
 unsetopt auto_cd
