@@ -14,7 +14,7 @@ setopt hist_ignore_all_dups
 
 # Autostart X on tty1
 if [[ "$(tty)" == "/dev/tty1" ]]; then
-        prgep xinit || xinit
+    prgep xinit || xinit
 fi
 
 function chpwd {
@@ -27,11 +27,11 @@ unsetopt auto_cd
 
 # Git
 git_prompt() {
-        changes=`git status --porcelain | wc -l` > /dev/null 2>/dev/null
-        ref=$(git symbolic-ref HEAD | cut -d'/' -f3) > /dev/null 2>/dev/null
-        [ -z "$ref" ] || echo -n " (%F{3}$ref%F{white}"
-        [ "$changes" = "0" ] || echo -n "*$changes"
-        [ -z "$ref" ] || echo ")"
+    changes=`git status --porcelain | wc -l` > /dev/null 2>/dev/null
+    ref=$(git symbolic-ref HEAD | cut -d'/' -f3) > /dev/null 2>/dev/null
+    [ -z "$ref" ] || echo -n " (%F{3}$ref%F{white}"
+    [ "$changes" = "0" ] || echo -n "*$changes"
+    [ -z "$ref" ] || echo ")"
 }
 
 setopt prompt_subst
@@ -100,6 +100,7 @@ alias gp='git push'
 alias gl='git log --oneline'
 alias gpl='git pull'
 alias gs='git status'
+alias gdiff='git diff'
 
 alias remote='ssh timmer@dsu.uk.to'
 
