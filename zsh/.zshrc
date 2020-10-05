@@ -63,6 +63,7 @@ mkcd() { mkdir -p "$@" && cd "$1" }
 conf() { $EDITOR $(find .config -maxdepth 2 -type f | fzf) }
 # Quick movement aliases
 alias d='cd `find -maxdepth 3 -type d | fzf` && exa'
+alias n='cd `find -maxdepth 3 -type d | fzf` && nvim .'
 
 # Aliases
 alias ls='ls --color=auto'
