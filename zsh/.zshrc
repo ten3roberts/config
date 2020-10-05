@@ -86,6 +86,8 @@ alias cb='cargo build'
 alias cr='cargo run'
 alias ct='cargo test'
 alias clippy='cargo clean && cargo clippy'
+alias cw='cargo watch -c'
+alias cwr='cargo watch -cx run'
 cto() { cargo test $@ -- --show-output }
 # Git aliases
 alias log='git log --oneline'
