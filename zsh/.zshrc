@@ -118,6 +118,7 @@ alias doom='~/.emacs.d/bin/doom'
 alias e='emacsclient -nw -a ""'
 
 alias spt='spotify-tui'
+alias spotify='flatpak run com.spotify.Client'
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -130,3 +131,4 @@ _comp_options+=(globdots)
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+alias pipes='pipes.sh -t `shuf -i 0-9 -n 1` -R -p 2 -f 20'
