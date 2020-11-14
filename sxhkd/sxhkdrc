@@ -1,4 +1,4 @@
-######### MY PERSONAL KEYBINDS ########### 
+######### MY PERSONAL KEYBINDS ###########
 
 super + e
 	nemo
@@ -73,7 +73,7 @@ super + space
 	rofi -show drun -config ~/.config/rofi/launcher.rasi
 #scratchy
 control + alt + r
-	scratchy.sh
+	$TERMINAL
 
 # make sxhkd reload its configuration files:
 super + Escape

@@ -43,7 +43,7 @@ PS1='%F{white}%F{10}%n%F{white} %F{blue}%3~%F{white}$(git_prompt)%F{white}%(?.%F
 export KEYTIMEOUT=1
 autoload edit-command-line; zle -N edit-command-line
 zle -N edit-command-line
-bindkey '^x' edit-command-line 
+bindkey '^x' edit-command-line
 
 # Ctrl Arrow key navigation
 bindkey "^[[1;5C" forward-word
@@ -130,5 +130,8 @@ _comp_options+=(globdots)
 # Load syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+
 alias pipes='pipes.sh -t `shuf -i 0-9 -n 1` -R -p 2 -f 20'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
