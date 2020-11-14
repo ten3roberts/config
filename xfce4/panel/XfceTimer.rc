@@ -1,0 +1,35 @@
+[G0]
+timername=Pomodoro
+time=1500
+timercommand=
+timerinfo=25m 0s
+is_countdown=true
+is_recur=false
+autostart=false
+
+[G1]
+timername=Break
+time=300
+timercommand=
+timerinfo=5m 0s
+is_countdown=true
+is_recur=false
+autostart=false
+
+[G2]
+timername=
+time=650
+timercommand=
+timerinfo=At 10:50
+is_countdown=false
+is_recur=false
+autostart=false
+
+[others]
+nowin_if_alarm=false
+use_global_command=false
+global_command=
+repeat_alarm=false
+repetitions=1
+repeat_interval=10
+
