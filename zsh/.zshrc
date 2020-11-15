@@ -128,9 +128,9 @@ compinit
 _comp_options+=(globdots)
 
 # Load syntax highlighting
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias pipes='pipes.sh -t `shuf -i 0-9 -n 1` -R -p 2 -f 20'
 
