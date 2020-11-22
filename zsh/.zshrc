@@ -118,7 +118,6 @@ alias doom='~/.emacs.d/bin/doom'
 alias e='emacsclient -nw -a ""'
 
 alias spt='spotify-tui'
-alias spotify='flatpak run com.spotify.Client'
 
 # Basic auto/tab complete:
 autoload -U compinit

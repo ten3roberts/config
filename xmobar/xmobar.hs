@@ -11,7 +11,7 @@ Config {
         -- layout
         , sepChar =  "%"   -- delineator between plugin names and straight text
         , alignSep = "}{"  -- separator between left-right alignment
-        , template = "%StdinReader% }{ %date% | %battery% | %amixer% | %dynnetwork% | %cpu% | %coretemp% | %memory%"
+        , template = "%StdinReader% }{ %date% | %battery% | %dynnetwork% | %cpu% | %coretemp% | %memory%"
 
         -- general behavior
         , lowerOnStart =     False    -- send to bottom of window stack on start
@@ -37,16 +37,16 @@ Config {
         --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
         , commands = 
         [
-              Run Com ".config/xmobar/volume.sh" [] "amixer" 10
-            , Run StdinReader
+              -- Run Com ".config/xmobar/volume.sh" [] "amixer" 
+              Run StdinReader
             -- network activity monitor (dynamic interface resolution)
             , Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s <rx>kB/s"
-            , "--Low"      , "5000"       -- units: B/s
-            , "--High"     , "15000"       -- units: B/s
+            , "--Low"      , "15000"       -- units: B/s
+            , "--High"     , "50"       -- units: B/s
             , "--low"      , "darkgreen"
             , "--normal"   , "darkorange"
             , "--high"     , "red"
-            ] 10
+            ] 20
 
             -- cpu activity monitor
             , Run Cpu       [ "--template" , "Cpu: <total>%"
@@ -78,7 +78,7 @@ Config {
             -- battery monitor
             , Run Battery
             [ "--template" , "<acstatus>"
-            , "--Low"      , "10"        -- units: %
+            , "--Low"      , "30"        -- units: %
                 , "--High"     , "80"        -- units: %
                 , "--low"      , "#BF616A"
                 , "--normal"   , "#EBCB8B"

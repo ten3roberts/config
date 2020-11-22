@@ -16,4 +16,4 @@
 
 style="style_normal_purple"
 
-rofi -no-lazy-grab -show drun -theme launchers/"$style".rasi
+rofi -combi-modi window,drun -no-lazy-grab -show combi -theme launchers/"$style".rasi

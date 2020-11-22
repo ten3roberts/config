@@ -1,5 +1,5 @@
 favorites=exo-mail-reader.desktop,exo-file-manager.desktop,exo-terminal-emulator.desktop,blender.desktop,nvim.desktop,org.inkscape.Inkscape.desktop
-recent=kitty.desktop,nemo.desktop,exo-terminal-emulator.desktop,blender.desktop,plank.desktop,tint2conf.desktop,exo-file-manager.desktop
+recent=kitty.desktop,exo-terminal-emulator.desktop,blender.desktop,plank.desktop,tint2conf.desktop,exo-file-manager.desktop
 button-icon=xfce4-whiskermenu
 button-single-row=false
 show-button-title=false
