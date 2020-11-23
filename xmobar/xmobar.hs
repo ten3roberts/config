@@ -1,7 +1,7 @@
 
 Config { 
     -- appearance
-        font =         "xft:Mononoki Nerd Font Mono:size=10:bold:antialias=true"
+        font =         "xft:Mononoki Nerd Font Mono:size=11:bold:antialias=true:autohint=true"
         , bgColor =      "black"
         , fgColor =      "#646464"
         , position =     Top
