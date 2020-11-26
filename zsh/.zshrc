@@ -103,7 +103,7 @@ alias gp='git push'
 alias gl='git log --oneline'
 alias gpl='git pull'
 alias gs='git status'
-alias gdiff='git diff'
+alias gd='git diff'
 
 alias remote='ssh timmer@dsu.uk.to'
 
