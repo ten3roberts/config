@@ -18,7 +18,7 @@ if [[ "$(tty)" == "/dev/tty1" ]]; then
 fi
 
 function chpwd {
-    set_title "Terminal - `basename $PWD`"
+    set_title "st - `basename $PWD`"
 }
 
 # setopt nobanghist
