@@ -2,7 +2,7 @@ configuration {
     combi-modi: "window,drun";
     show-icons: true;
     modi: "combi";
-    font: "Roboto Condensed 14";
+    font: "RobotoMono Nerd Font 14";
     width: 32;
     drun-match-fields: "exec,name";
 }
