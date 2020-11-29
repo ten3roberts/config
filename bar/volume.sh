@@ -13,7 +13,7 @@ else
     icon="^C1^奔"
 fi
 
-volstr=`printf "%3s" "$vol"`
+volstr=`printf "%2s" "$vol"`
 
 echo "$icon $volstr%"
 

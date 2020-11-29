@@ -118,6 +118,8 @@ apply_colors() {
 
 # Print the battery status
 print_status() {
+    # No battery was found
+    [ -z "$BATT_PCT"] && exit
     if ((emoji)) && ((BATT_CONNECTED)); then
         GRAPH="⚡"
     else
