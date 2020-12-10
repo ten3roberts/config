@@ -1,0 +1,8 @@
+nvim/
+
+zsh-syntax-highlighting
+zsh-autosuggestions
+
+zsh/.history
+zsh/.zcompdump
+
