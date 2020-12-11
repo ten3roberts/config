@@ -14,7 +14,7 @@ setopt hist_ignore_all_dups
 
 # Autostart X on tty1
 if [[ "$(tty)" == "/dev/tty1" ]]; then
-    prgep xinit || xinit
+#    prgep xinit || xinit
 fi
 
 function chpwd {
@@ -127,9 +127,9 @@ compinit
 _comp_options+=(globdots)
 
 # Load syntax highlighting
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias pipes='pipes.sh -t `shuf -i 0-9 -n 1` -R -p 2 -f 20'
 
