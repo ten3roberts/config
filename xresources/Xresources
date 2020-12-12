@@ -1,2 +1,1 @@
-*.font: Inconsolata Nerd Font Mono:size=14:antialias=true:autohint=true;
-*alpha: 0.95
+*.font: Mononoki Nerd Font Mono:size=16:antialias=true:hintfull=true;
