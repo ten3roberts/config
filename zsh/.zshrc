@@ -14,7 +14,7 @@ setopt hist_ignore_all_dups
 
 # Autostart X on tty1
 if [[ "$(tty)" == "/dev/tty1" ]]; then
-#    prgep xinit || xinit
+    prgep xinit || xinit
 fi
 
 function chpwd {
@@ -28,16 +28,19 @@ unsetopt auto_cd
 # Git
 git_prompt() {
     changes=`git status --porcelain | wc -l` > /dev/null 2>/dev/null
+    # untracked=`git clean -n | wc -l` > /dev/null 2>/dev/null
+
     ref=$(git symbolic-ref HEAD | cut -d'/' -f3) > /dev/null 2>/dev/null
-    [ -z "$ref" ] || echo -n " (%F{3}$ref%F{white}"
-    [ "$changes" = "0" ] || echo -n "*$changes"
-    [ -z "$ref" ] || echo ")"
+    [ -n "$ref" ] && echo -n " (%F{3}$ref%F{white}"
+    # [ "$untracked" != "0" ] && echo -n "+"
+    [ "$changes" != "0" ] && echo -n "•"
+    [ -n "$ref" ] && echo ") "
 }
 
 setopt prompt_subst
 
 # Configure Shell state
-PS1='%F{white}%F{10}%n%F{white} %F{blue}%3~%F{white}$(git_prompt)%F{white}%(?.%F{white}.%F{red})>%F{white} '
+PS1='%F{white}%F{10}%n%F{white} %F{blue}%3~%F{white}$(git_prompt)%F{white}%(?.%F{white}.%F{red} [%?])%(!.#.>)%F{white} '
 
 # Bind Ctrl+x to open CLI edit in $EDITOR
 export KEYTIMEOUT=1
@@ -62,8 +65,22 @@ bindkey '\e[1;5D' backward-word           # C-Left
 mkcd() { mkdir -p "$@" && cd "$1" }
 conf() { $EDITOR $(find .config -maxdepth 2 -type f | fzf) }
 # Quick movement aliases
-alias d='cd `find -maxdepth 3 -type d | fzf` && exa'
-alias n='cd `find -maxdepth 3 -type d | fzf` && nvim .'
+# alias d='cd `find -maxdepth 3 -type d | fzf` && exa'
+# alias n='cd `find -maxdepth 3 | fzf` && nvim .'
+
+d() {
+    res=`find -maxdepth 3 -type d | fzf`
+    [ -z $res ] && return 1
+    cd $res
+    exa || ls
+}
+
+n() {
+    res=`find -maxdepth 3 | fzf`
+    [ -z $res ] && return 1
+    [ -d $res ] && (cd $res; nvim .)
+    [ -f $res ] && (cd `dirname $res`; nvim `basename $res`)
+}
 
 # Aliases
 alias ls='ls --color=auto'
@@ -134,3 +151,5 @@ source $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 alias pipes='pipes.sh -t `shuf -i 0-9 -n 1` -R -p 2 -f 20'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+return 0
