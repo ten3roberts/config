@@ -1,9 +1,9 @@
 #!/bin/bash
 
-mix=`amixer get Master | tail -1`
-vol="$(amixer get Master | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')"
+vol=`pamixer --get-volume`
+muted=`pamixer --get-mute`
 
-if [[ $mix == *\[off\]* ]]; then
+if [[ "$muted" == "true" ]]; then
     icon="^C8^婢"
 elif [ "$vol" -gt "70" ]; then
     icon="^C6^墳"
