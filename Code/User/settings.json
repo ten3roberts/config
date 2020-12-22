@@ -35,7 +35,7 @@
     "workbench.editor.openPositioning": "last",
     "editor.cursorSurroundingLines": 5,
     "editor.wordWrap": "on",
-    "editor.fontFamily": "'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.fontFamily": "'Mononoki Nerd Font Mono', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },

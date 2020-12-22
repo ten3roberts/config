@@ -34,7 +34,7 @@ git_prompt() {
     [ -n "$ref" ] && echo -n " (%F{3}$ref%F{white}"
     # [ "$untracked" != "0" ] && echo -n "+"
     [ "$changes" != "0" ] && echo -n "•"
-    [ -n "$ref" ] && echo ") "
+    [ -n "$ref" ] && echo ")"
 }
 
 setopt prompt_subst
