@@ -40,7 +40,7 @@ git_prompt() {
 setopt prompt_subst
 
 # Configure Shell state
-PS1='%F{white}%F{10}%n%F{white} %F{blue}%3~%F{white}$(git_prompt)%F{white}%(?.%F{white}.%F{red} [%?])%(!.#.>)%F{white} '
+PS1='%F{white}%F{green}%n@%F{magenta}%m%F{white} %F{blue}%3~%F{white}$(git_prompt)%F{white}%(?.%F{white}.%F{red} [%?])%(!.#.>)%F{white} '
 
 # Bind Ctrl+x to open CLI edit in $EDITOR
 export KEYTIMEOUT=1
@@ -85,6 +85,7 @@ n() {
 # Aliases
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias mv='mv -v'
 
 alias la='ls -a'
 alias l='ls -F'
