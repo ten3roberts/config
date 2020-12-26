@@ -86,6 +86,7 @@ n() {
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias mv='mv -v'
+alias cp='cp -v'
 
 alias la='ls -a'
 alias l='ls -F'
