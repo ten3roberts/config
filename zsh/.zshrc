@@ -17,6 +17,10 @@ if [[ "$(tty)" == "/dev/tty1" ]]; then
     prgep xinit || xinit
 fi
 
+if [[ -z "$DISPLAY" ]]; then
+  export TMOUT=300
+fi
+
 function chpwd {
     set_title "st - `basename $PWD`"
 }
@@ -76,7 +80,7 @@ d() {
 }
 
 n() {
-    res=`find -maxdepth 3 | fzf`
+    res=`find -maxdepth 4 | fzf`
     [ -z $res ] && return 1
     [ -d $res ] && (cd $res; nvim .)
     [ -f $res ] && (cd `dirname $res`; nvim `basename $res`)
@@ -116,6 +120,8 @@ alias subupdate='git submodule foreach git pull origin master'
 alias status='git status'
 alias branch='git checkout'
 
+alias cmake_clang='cmake . -DCMAKE_C_COMPILER=clang -DCMAKE_EXPORT_COMPILE_COMMANDS=1'
+
 alias gc='git commit'
 alias ga='git add -v'
 alias gp='git push'
@@ -135,6 +141,8 @@ alias xr='sudo xbps-remove'
 alias esync='~/.emacs.d/bin/doom sync'
 alias doom='~/.emacs.d/bin/doom'
 alias e='emacsclient -nw -a ""'
+
+alias hc='herbstclient'
 
 alias spt='spotify-tui'
 

@@ -7,6 +7,9 @@ export BROWSER="firefox"
 export EDITOR="nvim"
 export VISUAL="nvim"
 
+# export MANPAGER='nvim +Man!'
+# export MANPAGER="bat -l man -p'"
+
 export TERMINAL="st"
 
 export PATH=$HOME/.nimble/bin:$HOME/.scripts:$HOME/.cargo/bin:$HOME/.local/bin::/usr/local/go/bin:$PATH

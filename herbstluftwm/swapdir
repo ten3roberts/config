@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+old_focus=$(herbstclient get_attr clients.focus.winid)
+
+if [[ -z "$old_focus" ]] ; then
+  # nothing to do if there is no window focused
+  exit 0
+  fi
+
+# the direction is in the first parameter to this script,
+# defaulting to forward ("1") if nothing is given
+direction=$1
+# we then do the cycling. here --skip-invisible is important
+# because otherwise the the swapping will behave strangle in the max layout
+herbstclient focus "${direction}" || exit
+# the lock in the previous command avoids flickering borders
+
+new_focus=`herbstclient get_attr clients.focus.winid`
+
+cmd=( )
+if [[ -z "$new_focus" ]] ; then
+  # if there is no window focused at the moment,
+  # then the focused framed is empty. We then bring
+  # the old_focus to this frame
+  cmd=( bring "$old_focus" )
+else
+  # if we had windows focused before and now, we simply
+  # swap their positions in the layout.
+  # we do the swap in sed, in order to have \< \> (with this
+  # we avoid issues in the case where one window id is the prefix of 
+  # another, e.g. 0x34000 and 0x3400)
+  layout=$(herbstclient dump \
+    | sed "s,\<${old_focus}\>,TMPWINID,g" \
+    | sed "s,\<${new_focus}\>,${old_focus},g" \
+    | sed "s,\<TMPWINID\>,${new_focus},g" \
+  )
+    cmd=( load "$layout" )
+  fi
+
+  # run the specific command and unlock again for the visual update
+  herbstclient chain ,  "${cmd[@]}" , unlock

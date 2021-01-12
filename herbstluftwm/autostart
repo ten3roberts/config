@@ -1,0 +1,242 @@
+#!/usr/bin/env bash
+
+hc() {
+  herbstclient "$@"
+}
+
+hc emit_hook reload
+
+# remove all existing keybindings
+hc keyunbind --all
+
+# keybindings
+# if you have a super key you will be much happier with Mod set to Mod4
+Mod=Mod4    # Use super as the main modifier
+#Mod=Mod4   # Use the super key as the main modifier
+
+# hc keybind $Mod-Shift-q quit
+hc keybind $Mod-Shift-r reload
+hc keybind $Mod-Shift-w close
+hc keybind $Mod-p spawn rofi_spawn
+hc keybind Mod1-Control-r spawn terminal_here.sh
+hc keybind $Mod-Return spawn "${TERMINAL:-xterm}" # use your $TERMINAL with xterm as fallback
+
+# Applications
+hc keybind $Mod-Control-f spawn firefox
+hc keybind $Mod-Control-s spawn switch_app spotify
+hc keybind $Mod-Control-d spawn switch_app discord Discord
+hc keybind $Mod-Control-e spawn thunar
+
+# Volume keys
+hc keybind XF86AudioMute spawn volctrl.sh toggle
+hc keybind XF86AudioRaiseVolume spawn volctrl.sh up
+hc keybind XF86AudioLowerVolume spawn volctrl.sh down
+
+# Media keys
+hc keybind XF86AudioPlay spawn playerctl play-pause
+hc keybind XF86AudioNext spawn playerctl next
+hc keybind XF86AudioPrev spawn playerctl previous
+hc keybind XF86AudioStop spawn playerctl stop
+
+# Brightness keys
+hc keybind XF86MonBrightnessUp spawn xbacklight -inc 10
+hc keybind XF86MonBrightnessDown spawn xbacklight -dec 10
+
+hc keybind Print spawn screenshot.sh screen
+hc keybind Shift-Print spawn screenshot.sh region
+
+# basic movement in tiling and floating mode
+# focusing clients
+hc keybind $Mod-Left  focus left
+hc keybind $Mod-Down  focus down
+hc keybind $Mod-Up    focus up
+hc keybind $Mod-Right focus right
+hc keybind $Mod-h     focus left
+hc keybind $Mod-j     focus down
+hc keybind $Mod-k     focus up
+hc keybind $Mod-l     focus right
+
+hc keybind $Mod-v rotate
+hc keybind $Mod-Shift-v mirror
+
+# moving clients in tiling and floating mode
+# Correctly handles shift between monitors
+hc keybind $Mod-Shift-Left or / shift left / \
+    chain , lock , shift_to_monitor -l , focus_monitor -l , unlock
+hc keybind $Mod-Shift-Down or / shift down / \
+    chain , lock , shift_to_monitor -d , focus_monitor -d , unlock
+hc keybind $Mod-Shift-Up or / shift up / \
+    chain , lock , shift_to_monitor -u , focus_monitor -u , unlock
+hc keybind $Mod-Shift-Right or / shift right / \
+    chain , lock , shift_to_monitor -r , focus_monitor -r , unlock
+hc keybind $Mod-Shift-h or / shift left / \
+    chain , lock , shift_to_monitor -l , focus_monitor -l , unlock
+hc keybind $Mod-Shift-j or / shift down / \
+    chain , lock , shift_to_monitor -d , focus_monitor -d , unlock
+hc keybind $Mod-Shift-k or / shift up / \
+    chain , lock , shift_to_monitor -u , focus_monitor -u , unlock
+hc keybind $Mod-Shift-l or / shift right / \
+    chain , lock , shift_to_monitor -r , focus_monitor -r , unlock
+
+# Swap
+hc keybind Mod4-Mod1-h spawn $HOME/.config/herbstluftwm/swapdir l
+hc keybind Mod4-Mod1-j spawn $HOME/.config/herbstluftwm/swapdir d
+hc keybind Mod4-Mod1-k spawn $HOME/.config/herbstluftwm/swapdir u
+hc keybind Mod4-Mod1-l spawn $HOME/.config/herbstluftwm/swapdir r
+
+# splitting frames
+# create an empty frame at the specified direction
+hc keybind $Mod-u       split   bottom  0.5
+hc keybind $Mod-o       split   right   0.5
+# let the current frame explode into subframes
+hc keybind $Mod-Control-space split explode
+
+# resizing frames and floating clients
+resizestep=0.05
+hc keybind $Mod-Control-h       resize left +$resizestep
+hc keybind $Mod-Control-j       resize down +$resizestep
+hc keybind $Mod-Control-k       resize up +$resizestep
+hc keybind $Mod-Control-l       resize right +$resizestep
+hc keybind $Mod-Control-Left    resize left +$resizestep
+hc keybind $Mod-Control-Down    resize down +$resizestep
+hc keybind $Mod-Control-Up      resize up +$resizestep
+hc keybind $Mod-Control-Right   resize right +$resizestep
+
+# Default to grid
+hc set default_frame_layout 3
+
+# tags
+tag_names=( "0000" "0001" "0010" "0011" "0100" "0101" "0110" "0111" "1000" )
+# tag_names=( {1..9} )
+tag_keys=( {1..9} 0 )
+
+hc rename default "${tag_names[0]}" || true
+for i in "${!tag_names[@]}" ; do
+  hc add "${tag_names[$i]}"
+  key="${tag_keys[$i]}"
+  if ! [ -z "$key" ] ; then
+    hc keybind "$Mod-$key" use_index "$i"
+    hc keybind "$Mod-Shift-$key" move_index "$i"
+  fi
+done
+
+# cycle through tags
+hc keybind $Mod-x use_index +1 --skip-visible
+hc keybind $Mod-z use_index -1 --skip-visible
+
+# layouting
+hc keybind $Mod-r remove
+hc keybind $Mod-s floating toggle
+hc keybind $Mod-f fullscreen toggle
+hc keybind $Mod-Shift-f set_attr clients.focus.floating toggle
+hc keybind $Mod-Shift-t pseudotile toggle
+
+# The following cycles through the available layouts within a frame, but skips
+# layouts, if the layout change wouldn't affect the actual window positions.
+# I.e. if there are two windows within a frame, the grid layout is skipped.
+hc keybind $Mod-space                                                           \
+  or , and . compare tags.focus.curframe_wcount = 2                   \
+  . cycle_layout +1 vertical horizontal max vertical grid    \
+  , cycle_layout +1
+
+# mouse
+hc mouseunbind --all
+hc mousebind $Mod-Button1 move
+hc mousebind $Mod-Button2 zoom
+hc mousebind $Mod-Button3 resize
+
+# focus
+hc keybind $Mod-BackSpace    cycle_monitor
+hc keybind $Mod-period       focus_monitor -r
+hc keybind $Mod-comma        focus_monitor -l
+
+hc keybind $Mod-Shift-period shift_to_monitor -r
+hc keybind $Mod-Shift-comma  shift_to_monitor -l
+
+hc keybind $Mod-Tab         emit_hook goto_last_tag
+hc keybind $Mod-Control-Tab cycle_all +1
+hc keybind $Mod-Shift-Tab   cycle_all -1
+hc keybind $Mod-c           cycle
+hc keybind $Mod-i           jumpto urgent
+
+# theme
+
+# Load the colors
+for i in {0..15}; do
+  eval "color$i=`xrdb -query | grep \"\*color$i:\" | cut -f 2`"
+done
+
+
+hc set focus_crosses_monitor_boundaries on
+hc attr theme.tiling.reset 1
+hc attr theme.floating.reset 1
+hc set frame_border_active_color $color4
+hc set frame_border_normal_color $color8
+hc set frame_bg_normal_color $color8
+hc set frame_bg_active_color $color2
+hc set frame_border_width 1
+hc set always_show_frame off
+hc set frame_bg_transparent on
+hc set frame_transparent_width 2
+hc set frame_gap 4
+
+hc attr theme.active.color $color1
+hc attr theme.normal.color '#454545'
+hc attr theme.urgent.color $color11
+hc attr theme.inner_width 0
+hc attr theme.inner_color black
+hc attr theme.border_width 2
+hc attr theme.floating.border_width 2
+hc attr theme.floating.outer_width 1
+hc attr theme.floating.outer_color '#454545'
+hc attr theme.active.inner_color $color1
+hc attr theme.active.outer_color $color5
+hc attr theme.background_color '#141414'
+
+hc set window_gap 0
+hc set frame_padding 0
+hc set smart_window_surroundings off
+hc set smart_frame_surroundings on
+hc set mouse_recenter_gap 1
+
+hc set focus_follows_mouse 1
+
+hc set swap_monitors_to_get_tag 1
+
+# rules
+hc unrule -F
+#hc rule class=XTerm tag=3 # move all xterms to tag 3
+hc rule focus=on # normally focus new clients
+hc rule floatplacement=smart
+hc rule index=e
+#hc rule focus=off # normally do not focus new clients
+# give focus to most common terminals
+#hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
+hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+hc rule class="Firefox" tag=${tag_names[2]}
+hc rule instance="spotify" tag=${tag_names[4]}
+hc rule instance="discord" tag=${tag_names[4]}
+hc rule class="Thunar" floating=on
+
+hc set tree_style '╾│ ├└╼─┐'
+
+# unlock, just to be sure
+hc unlock
+
+# do multi monitor setup here, e.g.:
+# hc set_monitors 1280x1024+0+0 1280x1024+1280+0
+# or simply:
+hc detect_monitors
+
+killall lemonbar
+
+nummon=`herbstclient list_monitors | wc -l`
+
+$HOME/.config/lemonbar/panel.sh $nummon &
+
+if hc silent new_attr bool my_not_first_autostart ; then
+  $HOME/.config/lemonbar/hooks.sh &
+  $HOME/.config/herbstluftwm/lasttag.sh &
+fi
