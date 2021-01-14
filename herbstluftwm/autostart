@@ -17,7 +17,7 @@ Mod=Mod4    # Use super as the main modifier
 # hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-w close
-hc keybind $Mod-p spawn rofi_spawn
+hc keybind $Mod-p spawn rofi -show combi
 hc keybind Mod1-Control-r spawn terminal_here.sh
 hc keybind $Mod-Return spawn "${TERMINAL:-xterm}" # use your $TERMINAL with xterm as fallback
 
