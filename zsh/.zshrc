@@ -6,8 +6,6 @@ bindkey -e
 # Load wal theme
 (cat ~/.cache/wal/sequences &)
 
-# oh-my-zsh
-
 
 # Ignore duplicate entries in history
 setopt hist_ignore_all_dups
@@ -25,9 +23,7 @@ function chpwd {
     set_title "st - `basename $PWD`"
 }
 
-# setopt nobanghist
-
-unsetopt auto_cd
+setopt autocd autopushd pushdignoredups
 
 # Git
 git_prompt() {
@@ -137,11 +133,6 @@ alias xi='sudo xbps-install'
 alias xq='xbps-query'
 alias xr='sudo xbps-remove'
 
-# Emacs aliases
-alias esync='~/.emacs.d/bin/doom sync'
-alias doom='~/.emacs.d/bin/doom'
-alias e='emacsclient -nw -a ""'
-
 alias hc='herbstclient'
 
 alias spt='spotify-tui'
@@ -149,7 +140,7 @@ alias spt='spotify-tui'
 # Basic auto/tab complete:
 autoload -U compinit
 zstyle ':completion:*' menu select
-zmodload zsh/complist
+# zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
 

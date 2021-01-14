@@ -5,8 +5,8 @@
     <property name="navigationbar" type="empty">
       <property name="position" type="string" value="left"/>
     </property>
-    <property name="height" type="uint" value="1020"/>
-    <property name="width" type="uint" value="836"/>
+    <property name="height" type="uint" value="518"/>
+    <property name="width" type="uint" value="852"/>
     <property name="bgcolor-override" type="bool" value="false"/>
   </property>
 </channel>

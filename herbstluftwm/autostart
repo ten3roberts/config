@@ -103,7 +103,7 @@ hc keybind $Mod-Control-Up      resize up +$resizestep
 hc keybind $Mod-Control-Right   resize right +$resizestep
 
 # Default to grid
-hc set default_frame_layout 3
+hc set default_frame_layout 0
 
 # tags
 tag_names=( "0000" "0001" "0010" "0011" "0100" "0101" "0110" "0111" "1000" )
@@ -156,7 +156,8 @@ hc keybind $Mod-Shift-comma  shift_to_monitor -l
 hc keybind $Mod-Tab         emit_hook goto_last_tag
 hc keybind $Mod-Control-Tab cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
-hc keybind $Mod-c           cycle
+hc keybind $Mod-c           cycle +1
+hc keybind $Mod-Shift-c     cycle -1
 hc keybind $Mod-i           jumpto urgent
 
 # theme
@@ -169,29 +170,27 @@ done
 
 hc set focus_crosses_monitor_boundaries on
 hc attr theme.tiling.reset 1
+hc attr theme.reset 1
 hc attr theme.floating.reset 1
 hc set frame_border_active_color $color4
 hc set frame_border_normal_color $color8
 hc set frame_bg_normal_color $color8
-hc set frame_bg_active_color $color2
-hc set frame_border_width 1
+hc set frame_bg_active_color $color4
+hc set frame_border_width 0
 hc set always_show_frame off
 hc set frame_bg_transparent on
 hc set frame_transparent_width 2
 hc set frame_gap 4
 
-hc attr theme.active.color $color1
-hc attr theme.normal.color '#454545'
-hc attr theme.urgent.color $color11
+hc attr theme.active.color $color5
+hc attr theme.normal.color $color7
+hc attr theme.urgent.color $color3
 hc attr theme.inner_width 0
-hc attr theme.inner_color black
-hc attr theme.border_width 2
+hc attr theme.border_width 3
 hc attr theme.floating.border_width 2
-hc attr theme.floating.outer_width 1
-hc attr theme.floating.outer_color '#454545'
-hc attr theme.active.inner_color $color1
-hc attr theme.active.outer_color $color5
-hc attr theme.background_color '#141414'
+hc attr theme.floating.active.color $color4
+hc attr theme.floating.outer_width 0
+hc attr theme.background_color $color4
 
 hc set window_gap 0
 hc set frame_padding 0
@@ -238,5 +237,5 @@ $HOME/.config/lemonbar/panel.sh $nummon &
 
 if hc silent new_attr bool my_not_first_autostart ; then
   $HOME/.config/lemonbar/hooks.sh &
-  $HOME/.config/herbstluftwm/lasttag.sh &
 fi
+$HOME/.config/herbstluftwm/lasttag.sh &
