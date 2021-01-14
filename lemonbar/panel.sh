@@ -11,7 +11,7 @@ bgcolor="#00000000"
 fgcolor="$color7"
 
 update_window_title() {
-  wnd_title=`xtitle | awk -v len=60 '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }'`
+  wnd_title=`xdotool getactivewindow getwindowname | awk -v len=60 '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }'`
 }
 
 update_tags() {
@@ -61,7 +61,7 @@ tags[$1]=$tag_build
 }
 
 update_big() {
-  battery=`$HOME/.config/lemonbar/battery.sh`
+  battery=`$HOME/.config/lemonbar/battery.sh -l`
   date=`date '+W.%V %a %F'`
   mem=`free -h | awk '/^Mem/ { print $3 "/" $2 }' | sed s/i//g`
   spotify=`$HOME/.config/lemonbar/spotify.sh`
@@ -102,18 +102,18 @@ event_loop() {
     esac
 
     for (( mon=0; mon<$nummon; mon++ )); do
-      echo -ne "%{S$mon}%{F-}%{B-}"
+      echo -ne "%{S$mon}"
 
       echo -ne "%{l}${tags[$mon]}%{B$color0}"
-      echo -ne " | %{F-}%{B$color0}$wnd_title  "
+      echo -ne "| %{F-}%{B$color0}$wnd_title  "
       echo -ne "%{c}"
       echo -ne "%{B$color3}%{F$color0}  $time  "
       echo -ne "%{B$color2}%{F$color0}  $date  "
       echo -ne "%{r}"
       echo -ne "$volume"
-      echo -ne "%{B$color2}%{F$color0}$spotify"
-      echo -ne "%{B$color0}%{F-} $battery"
-      echo -ne " %{B$color5}%{F$color0} $mem "
+      [ -n  "$spotify" ] && echo -ne "%{B$color2}%{F$color0} $spotify "
+      [ -n "$battery" ] && echo -ne "%{B$color0}%{F-} $battery "
+      echo -ne "%{B$color5}%{F$color0} $mem "
       echo -ne "%{B-}%{F-}"
     done
     echo ""
@@ -122,5 +122,5 @@ event_loop() {
 }
 
 # Format the Panel
-herbstclient -i | event_loop | lemonbar -f "Roboto Mono:size=$fontsize" -B $bgcolor -F $fgcolor
+herbstclient -i | event_loop | lemonbar -f "Roboto Mono Nerd Font:size=$fontsize" -B $bgcolor -F $fgcolor
 # echo "%{S$monitor}Monitor $monitor" | lemonbar -p 

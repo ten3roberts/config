@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Credit
-# https://github.com/Goles/Battery
-
 usage() {
 cat <<EOF
 battery usage:
@@ -10,6 +7,7 @@ battery usage:
     -h, --help    print this message
     -t            output tmux status bar format
     -z            output zsh prompt format
+    -l            output lemonbar format
     -e            don't output the emoji
     -a            output ascii instead of spark
     -b            battery path            default: /sys/class/power_supply/BAT0
@@ -29,19 +27,21 @@ fi
 # For default behavior
 setDefaults() {
     pmset_on=0
+    output_tmux=0
+    output_zsh=0
+    output_lemonbar=0
+    ascii=0
     ascii_bar='=========='
     emoji=1
-    good_color="#a3be8c"
-    middle_color="#ebcb8b"
-    warn_color="#bf616a"
-    connected_color="#88c0d0"
+    good_color="1;32"
+    middle_color="1;33"
+    warn_color="0;31"
     connected=0
     battery_path=/sys/class/power_supply/BAT0
 }
 
-
+[ -d "$battery_path" ] || exit
 setDefaults
-[ -d "$battery_path" ] || { echo "NONE"; exit; }
 
 # Determine battery charge state
 battery_charge() {
@@ -90,7 +90,7 @@ battery_charge() {
                     battery_current=$battery_path/charge_now
                     ;;
             esac
-            if [ $battery_state == 'Discharging' ]; then
+            if [ "$battery_state" == 'Discharging' ]; then
                 BATT_CONNECTED=0
             else
                 BATT_CONNECTED=1
@@ -105,23 +105,39 @@ battery_charge() {
 # Apply the correct color to the battery status prompt
 apply_colors() {
     # Green
-    if ((BATT_CONNECTED)); then
-        COLOR=$connected_color
-    elif [[ $BATT_PCT -ge 75 ]]; then
+    if [[ $BATT_PCT -ge 75 ]]; then
+        if ((output_tmux)); then
+            COLOR="#[fg=$good_color]"
+        elif ((output_zsh)); then
+            COLOR="%F{$good_color}"
+        else
             COLOR=$good_color
+        fi
+
     # Yellow
     elif [[ $BATT_PCT -ge 25 ]] && [[ $BATT_PCT -lt 75 ]]; then
-        COLOR=$middle_color
+        if ((output_tmux)); then
+            COLOR="#[fg=$middle_color]"
+        elif ((output_zsh)); then
+            COLOR="%F{$middle_color}"
+        else
+            COLOR=$middle_color
+        fi
+
     # Red
-    else
-        COLOR=$warn_color
+    elif [[ $BATT_PCT -lt 25 ]]; then
+        if ((output_tmux)); then
+            COLOR="#[fg=$warn_color]"
+        elif ((output_zsh)); then
+            COLOR="%F{$warn_color}"
+        else
+            COLOR=$warn_color
+        fi
     fi
 }
 
 # Print the battery status
 print_status() {
-    # No battery was found
-    [ -z "$BATT_PCT"] && exit
     if ((emoji)) && ((BATT_CONNECTED)); then
         GRAPH="⚡"
     else
@@ -133,12 +149,29 @@ print_status() {
         fi
     fi
 
-    printf "^c%s^%s %s"  "$COLOR" "$BATT_PCT%"  "$GRAPH"
-    printf "%%{F%s} %s"  "$COLOR" "$BATT_PCT%"  "$GRAPH"
+    if ((ascii)); then
+        barlength=${#ascii_bar}
+
+        # Battery percentage rounded to the length of ascii_bar
+        rounded_n=$(( $barlength * $BATT_PCT / 100 + 1))
+
+        # Creates the bar
+        GRAPH=$(printf "[%-${barlength}s]" "${ascii_bar:0:rounded_n}")
+    fi
+
+    if ((output_tmux)); then
+        printf "%s%s %s%s" "$COLOR" "$BATT_PCT%" "$GRAPH" "#[default]"
+    elif ((output_lemonbar)); then
+        printf "%%{F%s}%s %s%%{F-}" "$COLOR" "$BATT_PCT%" "$GRAPH"
+    elif ((output_zsh)); then
+        printf "%%B%s%s %s" "$COLOR" "$BATT_PCT%%" "$GRAPH"
+    else
+        printf "\e[0;%sm%s %s \e[m\n"  "$COLOR" "$BATT_PCT%"  "$GRAPH"
+    fi
 }
 
 # Read args
-while getopts ":g:m:w:tzeab:p" opt; do
+while getopts ":g:m:w:tzleab:p" opt; do
     case $opt in
         g)
             good_color=$OPTARG
@@ -160,6 +193,12 @@ while getopts ":g:m:w:tzeab:p" opt; do
             good_color="64"
             middle_color="136"
             warn_color="160"
+            ;;
+        l)
+            output_lemonbar=1
+            good_color="#98c379"
+            middle_color="#e5c07b"
+            warn_color="#e06c75"
             ;;
         e)
             emoji=0
