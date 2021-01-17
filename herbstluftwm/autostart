@@ -86,8 +86,8 @@ hc keybind Mod4-Mod1-l spawn $HOME/.config/herbstluftwm/swapdir r
 
 # splitting frames
 # create an empty frame at the specified direction
-hc keybind $Mod-u       split   bottom  0.5
-hc keybind $Mod-o       split   right   0.5
+hc keybind $Mod-u       split   bottom  0.618
+hc keybind $Mod-o       split   right   0.618
 # let the current frame explode into subframes
 hc keybind $Mod-Control-space split explode
 
@@ -215,6 +215,7 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 hc rule class="Firefox" tag=${tag_names[2]}
+hc rule class="Firefox-esr" tag=${tag_names[2]}
 hc rule instance="spotify" tag=${tag_names[4]}
 hc rule instance="discord" tag=${tag_names[4]}
 hc rule class="Thunar" floating=on
