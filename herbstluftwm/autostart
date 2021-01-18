@@ -182,7 +182,7 @@ hc set frame_bg_transparent on
 hc set frame_transparent_width 2
 hc set frame_gap 4
 
-hc attr theme.active.color $color5
+hc attr theme.active.color $color1
 hc attr theme.normal.color $color7
 hc attr theme.urgent.color $color3
 hc attr theme.inner_width 0
