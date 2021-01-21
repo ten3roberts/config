@@ -40,7 +40,7 @@ git_prompt() {
 setopt prompt_subst
 
 # Configure Shell state
-PS1='%F{white}%F{green}%n@%F{magenta}%m%F{white} %F{blue}%3~%F{white}$(git_prompt)%F{white}%(?.%F{white}.%F{red} [%?])%(!.#.>)%F{white} '
+PS1='%F{white}%F{green}%n@%F{magenta}%m%F{white} %F{blue}%3~%(?.%F{white}.%F{red} [%?])%(!.#.>)%F{white} '
 
 # Bind Ctrl+x to open CLI edit in $EDITOR
 export KEYTIMEOUT=1
@@ -136,6 +136,9 @@ alias xr='sudo xbps-remove'
 alias hc='herbstclient'
 
 alias spt='spotify-tui'
+
+# Neovim remote
+alias nv="nvr --remote-silent"
 
 # Basic auto/tab complete:
 autoload -U compinit
