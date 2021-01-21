@@ -1,234 +1,250 @@
 #!/bin/bash
 
 usage() {
-cat <<EOF
-battery usage:
+  cat <<EOF
+  battery usage:
   general:
-    -h, --help    print this message
-    -t            output tmux status bar format
-    -z            output zsh prompt format
-    -l            output lemonbar format
-    -e            don't output the emoji
-    -a            output ascii instead of spark
-    -b            battery path            default: /sys/class/power_supply/BAT0
-    -p            use pmset (more accurate)
+  -h, --help    print this message
+  -t            output tmux status bar format
+  -z            output zsh prompt format
+  -l            output lemonbar format
+  -i            Use nerd font icons
+  -e            don't output the emoji
+  -a            output ascii instead of spark
+  -b            battery path            default: /sys/class/power_supply/BAT0
+  -p            use pmset (more accurate)
   colors:                                                 tmux     zsh
-    -g <color>    good battery level      default: 1;32 | green  | 64
-    -m <color>    middle battery level    default: 1;33 | yellow | 136
-    -w <color>    warn battery level      default: 0;31 | red    | 160
+  -g <color>    good battery level      default: 1;32 | green  | 64
+  -m <color>    middle battery level    default: 1;33 | yellow | 136
+  -w <color>    warn battery level      default: 0;31 | red    | 160
 EOF
 }
 
 if [[ $1 == '-h' || $1 == '--help' || $1 == '-?' ]]; then
-    usage
-    exit 0
+  usage
+  exit 0
 fi
 
 # For default behavior
 setDefaults() {
-    pmset_on=0
-    output_tmux=0
-    output_zsh=0
-    output_lemonbar=0
-    ascii=0
-    ascii_bar='=========='
-    emoji=1
-    good_color="1;32"
-    middle_color="1;33"
-    warn_color="0;31"
-    connected=0
-    battery_path=/sys/class/power_supply/BAT0
+  pmset_on=0
+  output_tmux=0
+  output_zsh=0
+  output_lemonbar=0
+  ascii=0
+  ascii_bar='=========='
+  emoji=1
+  good_color="1;32"
+  middle_color="1;33"
+  warn_color="0;31"
+  connected=0
+  battery_path=/sys/class/power_supply/BAT0
 }
 
-[ -d "$battery_path" ] || exit
 setDefaults
 
 # Determine battery charge state
 battery_charge() {
-    case $(uname -s) in
-        "Darwin")
-            if ((pmset_on)) && command -v pmset &>/dev/null; then
-                if [ "$(pmset -g batt | grep -o 'AC Power')" ]; then
-                    BATT_CONNECTED=1
-                else
-                    BATT_CONNECTED=0
-                fi
-                BATT_PCT=$(pmset -g batt | grep -o '[0-9]*%' | tr -d %)
-            else
-                while read key value; do
-                    case $key in
-                        "MaxCapacity")
-                            maxcap=$value
-                            ;;
-                        "CurrentCapacity")
-                            curcap=$value
-                            ;;
-                        "ExternalConnected")
-                            if [ $value == "No" ]; then
-                                BATT_CONNECTED=0
-                            else
-                                BATT_CONNECTED=1
-                            fi
-                            ;;
-                    esac
-                    if [[ -n "$maxcap" && -n $curcap ]]; then
-                        BATT_PCT=$(( 100 * curcap / maxcap))
-                    fi
-                done < <(ioreg -n AppleSmartBattery -r | grep -o '"[^"]*" = [^ ]*' | sed -e 's/= //g' -e 's/"//g' | sort)
-            fi
-            ;;
-        "Linux")
-            case $(cat /etc/*-release) in
-                *"Arch Linux"*|*"Ubuntu"*|*"openSUSE"*)
-                    battery_state=$(cat $battery_path/energy_now)
-                    battery_full=$battery_path/energy_full
-                    battery_current=$battery_path/energy_now
-                    ;;
-                *)
-                    battery_state=$(cat $battery_path/status)
-                    battery_full=$battery_path/charge_full
-                    battery_current=$battery_path/charge_now
-                    ;;
-            esac
-            if [ "$battery_state" == 'Discharging' ]; then
+  case $(uname -s) in
+    "Darwin")
+      if ((pmset_on)) && command -v pmset &>/dev/null; then
+        if [ "$(pmset -g batt | grep -o 'AC Power')" ]; then
+          BATT_CONNECTED=1
+        else
+          BATT_CONNECTED=0
+        fi
+        BATT_PCT=$(pmset -g batt | grep -o '[0-9]*%' | tr -d %)
+      else
+        while read key value; do
+          case $key in
+            "MaxCapacity")
+              maxcap=$value
+              ;;
+            "CurrentCapacity")
+              curcap=$value
+              ;;
+            "ExternalConnected")
+              if [ $value == "No" ]; then
                 BATT_CONNECTED=0
-            else
+              else
                 BATT_CONNECTED=1
-            fi
-                now=$(cat $battery_current)
-                full=$(cat $battery_full)
-                BATT_PCT=$((100 * $now / $full))
-            ;;
-    esac
+              fi
+              ;;
+          esac
+          if [[ -n "$maxcap" && -n $curcap ]]; then
+            BATT_PCT=$(( 100 * curcap / maxcap))
+          fi
+        done < <(ioreg -n AppleSmartBattery -r | grep -o '"[^"]*" = [^ ]*' | sed -e 's/= //g' -e 's/"//g' | sort)
+      fi
+      ;;
+    "Linux")
+      case $(cat /etc/*-release) in
+        *"Arch Linux"*|*"Ubuntu"*|*"openSUSE"*)
+          battery_state=$(cat $battery_path/energy_now)
+          battery_full=$battery_path/energy_full
+          battery_current=$battery_path/energy_now
+          ;;
+        *)
+          battery_state=$(cat $battery_path/status)
+          battery_full=$battery_path/charge_full
+          battery_current=$battery_path/charge_now
+          ;;
+      esac
+      if [ "$battery_state" == 'Discharging' ]; then
+        BATT_CONNECTED=0
+      else
+        BATT_CONNECTED=1
+      fi
+      now=$(cat $battery_current)
+      full=$(cat $battery_full)
+      BATT_PCT=$((100 * $now / $full))
+      ;;
+  esac
 }
 
 # Apply the correct color to the battery status prompt
 apply_colors() {
-    # Green
-    if [[ $BATT_PCT -ge 75 ]]; then
-        if ((output_tmux)); then
-            COLOR="#[fg=$good_color]"
-        elif ((output_zsh)); then
-            COLOR="%F{$good_color}"
-        else
-            COLOR=$good_color
-        fi
+  # Green
+  if [[ $BATT_PCT -ge 75 ]]; then
+    if ((output_tmux)); then
+      COLOR="#[fg=$good_color]"
+    elif ((output_zsh)); then
+      COLOR="%F{$good_color}"
+    else
+      COLOR=$good_color
+    fi
 
     # Yellow
-    elif [[ $BATT_PCT -ge 25 ]] && [[ $BATT_PCT -lt 75 ]]; then
-        if ((output_tmux)); then
-            COLOR="#[fg=$middle_color]"
-        elif ((output_zsh)); then
-            COLOR="%F{$middle_color}"
-        else
-            COLOR=$middle_color
-        fi
+  elif [[ $BATT_PCT -ge 25 ]] && [[ $BATT_PCT -lt 75 ]]; then
+    if ((output_tmux)); then
+      COLOR="#[fg=$middle_color]"
+    elif ((output_zsh)); then
+      COLOR="%F{$middle_color}"
+    else
+      COLOR=$middle_color
+    fi
 
     # Red
-    elif [[ $BATT_PCT -lt 25 ]]; then
-        if ((output_tmux)); then
-            COLOR="#[fg=$warn_color]"
-        elif ((output_zsh)); then
-            COLOR="%F{$warn_color}"
-        else
-            COLOR=$warn_color
-        fi
+  elif [[ $BATT_PCT -lt 25 ]]; then
+    if ((output_tmux)); then
+      COLOR="#[fg=$warn_color]"
+    elif ((output_zsh)); then
+      COLOR="%F{$warn_color}"
+    else
+      COLOR=$warn_color
     fi
+  fi
 }
 
 # Print the battery status
 print_status() {
-    if ((emoji)) && ((BATT_CONNECTED)); then
-        GRAPH="⚡"
+  if ((emoji)) && ((BATT_CONNECTED)); then
+    GRAPH="⚡"
+  else
+    if ((icons)); then
+      if [ "$BATT_PCT" -lt "20" ]; then
+        GRAPH=
+      elif [ "$BATT_PCT" -lt "40" ]; then
+        GRAPH=
+      elif [ "$BATT_PCT" -lt "60" ]; then
+        GRAPH=
+      elif [ "$BATT_PCT" -lt "80" ]; then
+        GRAPH=
+      else
+        GRAPH=
+      fi
+    elif command -v spark &>/dev/null; then
+      sparks=$(spark 0 ${BATT_PCT} 100)
+      GRAPH=${sparks:1:1}
     else
-        if command -v spark &>/dev/null; then
-            sparks=$(spark 0 ${BATT_PCT} 100)
-            GRAPH=${sparks:1:1}
-        else
-            ascii=1
-        fi
+      ascii=1
     fi
+  fi
 
-    if ((ascii)); then
-        barlength=${#ascii_bar}
+
+  if ((ascii)); then
+    barlength=${#ascii_bar}
 
         # Battery percentage rounded to the length of ascii_bar
         rounded_n=$(( $barlength * $BATT_PCT / 100 + 1))
 
         # Creates the bar
         GRAPH=$(printf "[%-${barlength}s]" "${ascii_bar:0:rounded_n}")
-    fi
+  fi
 
-    if ((output_tmux)); then
-        printf "%s%s %s%s" "$COLOR" "$BATT_PCT%" "$GRAPH" "#[default]"
-    elif ((output_lemonbar)); then
-        printf "%%{F%s}%s %s%%{F-}" "$COLOR" "$BATT_PCT%" "$GRAPH"
-    elif ((output_zsh)); then
-        printf "%%B%s%s %s" "$COLOR" "$BATT_PCT%%" "$GRAPH"
-    else
-        printf "\e[0;%sm%s %s \e[m\n"  "$COLOR" "$BATT_PCT%"  "$GRAPH"
-    fi
+  if ((output_tmux)); then
+    printf "%s%s %s%s" "$COLOR" "$BATT_PCT%" "$GRAPH" "#[default]"
+  elif ((output_lemonbar)); then
+    printf "%%{F%s}%s %s%%{F-}" "$COLOR" "$BATT_PCT%" "$GRAPH"
+  elif ((output_zsh)); then
+    printf "%%B%s%s %s" "$COLOR" "$BATT_PCT%%" "$GRAPH"
+  else
+    printf "\e[0;%sm%s %s \e[m\n"  "$COLOR" "$BATT_PCT%"  "$GRAPH"
+  fi
 }
 
 # Read args
-while getopts ":g:m:w:tzleab:p" opt; do
-    case $opt in
-        g)
-            good_color=$OPTARG
-            ;;
-        m)
-            middle_color=$OPTARG
-            ;;
-        w)
-            warn_color=$OPTARG
-            ;;
-        t)
-            output_tmux=1
-            good_color="green"
-            middle_color="yellow"
-            warn_color="red"
-            ;;
-        z)
-            output_zsh=1
-            good_color="64"
-            middle_color="136"
-            warn_color="160"
-            ;;
-        l)
-            output_lemonbar=1
-            good_color="#98c379"
-            middle_color="#e5c07b"
-            warn_color="#e06c75"
-            ;;
-        e)
-            emoji=0
-            ;;
-        a)
-            ascii=1
-            ;;
-        p)
-            pmset_on=1
-            ;;
-        b)
-            if [ -d $OPTARG ]; then
-                battery_path=$OPTARG
-            else
-                >&2 echo "Battery not found, trying to use default path..."
-                if [ ! -d $battery_path ]; then
-                    >&2 echo "Default battery path is also unreachable"
-                    exit 1
-                fi
-            fi
-            ;;
-        \?)
-            echo "Invalid option: -$OPTARG"
-            exit 1
-            ;;
-        :)
-            echo "Option -$OPTARG requires an argument"
-            exit 1
-            ;;
-    esac
+while getopts ":g:m:w:tzlieab:p" opt; do
+  case $opt in
+    g)
+      good_color=$OPTARG
+      ;;
+    m)
+      middle_color=$OPTARG
+      ;;
+    w)
+      warn_color=$OPTARG
+      ;;
+    t)
+      output_tmux=1
+      good_color="green"
+      middle_color="yellow"
+      warn_color="red"
+      ;;
+    z)
+      output_zsh=1
+      good_color="64"
+      middle_color="136"
+      warn_color="160"
+      ;;
+    l)
+      output_lemonbar=1
+      good_color="#98c379"
+      middle_color="#e5c07b"
+      warn_color="#e06c75"
+      ;;
+    e)
+      emoji=0
+      ;;
+    a)
+      ascii=1
+      ;;
+    i)
+      icons=1
+      ;;
+    p)
+      pmset_on=1
+      ;;
+    b)
+      if [ -d $OPTARG ]; then
+        battery_path=$OPTARG
+      else
+        >&2 echo "Battery not found, trying to use default path..."
+        if [ ! -d $battery_path ]; then
+          >&2 echo "Default battery path is also unreachable"
+          exit 1
+        fi
+      fi
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG"
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument"
+      exit 1
+      ;;
+  esac
 done
 
 battery_charge

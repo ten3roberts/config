@@ -11,7 +11,7 @@ bgcolor="#00000000"
 fgcolor="$color7"
 
 update_window_title() {
-  wnd_title=`xdotool getactivewindow getwindowname | awk -v len=60 '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }'`
+  wnd_title=`xdotool getactivewindow getwindowname | awk -v len=45 '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }'`
 }
 
 update_tags() {
@@ -61,7 +61,7 @@ tags[$1]=$tag_build
 }
 
 update_big() {
-  battery=`$HOME/.config/lemonbar/battery.sh -l`
+  battery=`$HOME/.config/lemonbar/battery.sh -li`
   date=`date '+W.%V %a %F'`
   mem=`free -h | awk '/^Mem/ { print $3 "/" $2 }' | sed s/i//g`
   spotify=`$HOME/.config/lemonbar/spotify.sh`

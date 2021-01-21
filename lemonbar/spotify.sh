@@ -13,4 +13,5 @@ meta=$(dbus-send --print-reply --dest=${domain}.spotify \
 artist=$(echo "$meta" | sed -nr '/xesam:artist"/,+2s/^ +string "(.*)"$/\1/p' | tail -1  | sed "s/\&/+/g")
 album=$(echo "$meta" | sed -nr '/xesam:album"/,+2s/^ +variant +string "(.*)"$/\1/p' | tail -1)
 title=$(echo "$meta" | sed -nr '/xesam:title"/,+2s/^ +variant +string "(.*)"$/\1/p' | tail -1 | sed "s/\&/+/g")
-echo " $title - $artist "
+echo `echo " $title" | awk -v len=60 '{ if (length($0) > len) print substr($0, 1, len-3); else print; }'` " - $artist "
+

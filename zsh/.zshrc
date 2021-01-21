@@ -137,8 +137,7 @@ alias hc='herbstclient'
 
 alias spt='spotify-tui'
 
-# Neovim remote
-alias nv="nvr --remote-silent"
+alias killbg='kill ${${(v)jobstates##*:*:}%=*}'
 
 # Basic auto/tab complete:
 autoload -U compinit
