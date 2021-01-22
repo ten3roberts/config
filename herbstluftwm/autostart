@@ -129,6 +129,16 @@ hc keybind $Mod-space                                                           
   . cycle_layout +1 vertical horizontal max vertical grid    \
   , cycle_layout +1
 
+# Vertical
+hc keybind $Mod-Up set_layout horizontal
+# Horizontal
+hc keybind $Mod-Right set_layout vertical
+# Max
+hc keybind $Mod-Down set_layout max
+# Grid
+hc keybind $Mod-Left set_layout grid
+
+
 # mouse
 hc mouseunbind --all
 hc mousebind $Mod-Button1 move
@@ -228,5 +238,6 @@ $HOME/.config/lemonbar/panel.sh $nummon &
 
 if hc silent new_attr bool my_not_first_autostart ; then
   $HOME/.config/lemonbar/hooks.sh &
+  $HOME/.config/herbstluftwm/lastwindow.sh &
 fi
 $HOME/.config/herbstluftwm/lasttag.sh &
