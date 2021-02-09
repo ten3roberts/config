@@ -1,14 +1,6 @@
 [xfdesktop-version-4.10.3+-rcfile_format]
 4.10.3+=true
 
-[/home/timmer/Desktop/dev]
-row=3
-col=0
-
-[/home/timmer/Desktop/Firefox Web Browser.desktop]
-row=5
-col=0
-
 [/home/timmer/Desktop/steam.desktop]
 row=4
 col=0
@@ -31,10 +23,6 @@ col=17
 
 [Trash]
 row=2
-col=0
-
-[/]
-row=0
 col=0
 
 [/home/timmer]

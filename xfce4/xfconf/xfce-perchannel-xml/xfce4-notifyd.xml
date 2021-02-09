@@ -28,7 +28,7 @@
   <property name="initial-opacity" type="double" value="1.000000"/>
   <property name="theme" type="string" value="Default"/>
   <property name="do-fadeout" type="bool" value="true"/>
-  <property name="do-slideout" type="bool" value="false"/>
+  <property name="do-slideout" type="bool" value="true"/>
   <property name="notification-log" type="bool" value="false"/>
   <property name="expire-timeout" type="int" value="8"/>
 </channel>
