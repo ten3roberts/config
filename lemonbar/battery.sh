@@ -159,6 +159,7 @@ print_status() {
     else
       ascii=1
     fi
+    GRAPH="$GRAPH "
   fi
 
 
@@ -169,17 +170,18 @@ print_status() {
         rounded_n=$(( $barlength * $BATT_PCT / 100 + 1))
 
         # Creates the bar
-        GRAPH=$(printf "[%-${barlength}s]" "${ascii_bar:0:rounded_n}")
+        GRAPH=$(printf "[%-${barlength}s]" "${ascii_bar:0:rounded_n} ")
   fi
 
+  [ -n "$BATT_PCT" ] && BATT_PCT="$BATT_PCT% "
   if ((output_tmux)); then
-    printf "%s%s %s%s" "$COLOR" "$BATT_PCT%" "$GRAPH" "#[default]"
+    printf "%s%s %s%s" "$COLOR" "$BATT_PCT$GRAPH""#[default]"
   elif ((output_lemonbar)); then
-    printf "%%{F%s}%s %s%%{F-}" "$COLOR" "$BATT_PCT%" "$GRAPH"
+    printf "%%{F%s}%s %s%%{F-}" "$COLOR" "$BATT_PCT$GRAPH"
   elif ((output_zsh)); then
-    printf "%%B%s%s %s" "$COLOR" "$BATT_PCT%%" "$GRAPH"
+    printf "%%B%s%s %s" "$COLOR" "$BATT_PCT$GRAPH"
   else
-    printf "\e[0;%sm%s %s \e[m\n"  "$COLOR" "$BATT_PCT%"  "$GRAPH"
+    printf "\e[0;%sm%s %s \e[m\n"  "$COLOR" "$BATT_PCT$GRAPH"
   fi
 }
 

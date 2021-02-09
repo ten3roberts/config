@@ -10,7 +10,7 @@ export VISUAL="nvim"
 # export MANPAGER='nvim +Man!'
 # export MANPAGER="bat -l man -p'"
 
-export TERMINAL="st"
+export TERMINAL="xfce4-terminal"
 
 export PATH=$HOME/.nimble/bin:$HOME/.scripts:$HOME/.cargo/bin:$HOME/.local/bin::/usr/local/go/bin:$PATH
 
@@ -22,6 +22,4 @@ export INPUTRC="$HOME/.config/inputrc"
 export LESSHISTFILE="-"
 
 # Vim color scheme
-
-export VIM_DARK_COLORSCHEME="one"
-export VIM_LIGHT_COLORSCHEME="one"
+export VIM_COLORSCHEME="dracula"

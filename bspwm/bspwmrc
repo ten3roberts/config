@@ -1,43 +1,42 @@
-#! /bin/sh
-
+#! /bin/bash
 
 # Set the left cursor to fix black X cursor on desktop
 xsetroot -cursor_name left_ptr
-xrandr --output HDMI-0 --primary --left-of DVI-D-0
-
-sxhkd &
-
-xset r rate 250 50
-setxkbmap se
-setxkbmap -option caps:escape
-
-killall -q picom
-picom &
-
-pulseaudio &
 
 # Set primary monitor
 
 # Focus follows mouse
-bspc config focus_follows_pointer false
+bspc config focus_follows_pointer true
 
-bspc monitor HDMI-0 -d 1 2 3 4 5 6 7
+# bspc monitor HDMI-0 -d 0000 0001 0010 0011 0100 0101 0110 0111 1000
+bspc monitor -d 1
+
+# Load the colors
+for i in {0..15}; do
+  eval "color$i=`xrdb -query | grep \"\*color$i:\" | cut -f 2`"
+done
 
 bspc config border_width         2
-bspc config window_gap           6
-bspc config top_padding          24
+bspc config window_gap           3
+bspc config top_padding          0
 
 bspc config split_ratio          0.5
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 bspc config single_monocle       true
-bspc config honor_size_hints     false
+bspc config honor_size_hints     true
 bspc config swallow_first_click  false
 
+bspc config ignore_ewmh_focus true
+
+bspc config focused_border_color "$color1"
+bspc config active_border_color  "$color8"
+bspc config normal_border_color "$color0"
+
+bspc config automatic_scheme alternate
 # Remove all rules first
 bspc rule -r *:*
 
-bspc rule -a Emacs state=tiled
 bspc rule -a Thunar state=floating
 bspc rule -a Nemo state=floating
 bspc rule -a mpv state=floating
@@ -48,28 +47,15 @@ bspc rule -a mplayer2 state=floating
 bspc rule -a Screenkey manage=off
 bspc rule -a feh state=floating
 bspc rule -a Blender state=floating
-bspc rule -a Code monitor=HDMI-0
-bspc rule -a discord monitor=HDMI-1, state=floating
-bspc rule -a spotify desktop='^2' follow=off
+bspc rule -a discord desktop='^5' state=floating
+bspc rule -a spotify desktop='^5' follow=off
 
 bspc rule -a Lxtask state=floating
 bspc rule -a Pavucontrol state=floating
 
-# Steam and games
-bspc rule -a Steam desktop='^6' follow=off
-bspc rule -a 'Minecraft*' desktop='^5' follow=off
-bspc rule -a csgo_linux64 desktop='^5' follow=off
-bspc rule -a Equilinox desktop='^5' follow=off
-bspc rule -a TerraTech desktop='^5' follow=off
-bspc rule -a Unturned desktop='^5' follow=off
-bspc rule -a factorio desktop='^5' follow=off
-bspc rule -a Plank layer=above manage=on border=off
 
-# Autostart
-killall polybar
-sleep 3
+killall sxhkd
+sxhkd &
 
-# $HOME/.scripts/settheme -R
-polybar bar &
-
-randbg
+killall lemonbar
+$HOME/.config/lemonbar/bspwm_panel.sh &

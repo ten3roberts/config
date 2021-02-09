@@ -138,6 +138,7 @@ alias hc='herbstclient'
 alias spt='spotify-tui'
 
 alias killbg='kill ${${(v)jobstates##*:*:}%=*}'
+alias doom='~/.emacs.d/bin/doom'
 
 # Basic auto/tab complete:
 autoload -U compinit
