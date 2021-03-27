@@ -1,8 +1,1 @@
 . $HOME/.zprofile
-
-# Machine specific
-if [ `hostname` = "debianWorkstation" ]; then
-    xrandr --output HDMI-1 --primary --left-of DVI-D-1
-fi
-
-init.sh &

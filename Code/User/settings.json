@@ -1,6 +1,33 @@
 {
     "workbench.iconTheme": "material-icon-theme",
-    "editor.fontFamily": "'Droid Sans Mono Nerd Font', 'monospace', monospace, 'Droid Sans Fallback'",
+    "editor.fontFamily": "'Fira Code', 'monospace', monospace, 'Droid Sans Fallback'",
     "editor.tabSize": 2,
-    "editor.renderIndentGuides": false
+    "editor.fontLigatures": true,
+    "editor.wordWrap": "on",
+    "editor.acceptSuggestionOnEnter": "smart",
+    "editor.suggest.localityBonus": true,
+    "explorer.compactFolders": false,
+    "window.restoreWindows": "none",
+    "terminal.integrated.fontSize": 16,
+    "editor.autoClosingOvertype": "always",
+    "editor.cursorSurroundingLines": 5,
+    "editor.formatOnSave": true,
+    "rust-analyzer.inlayHints.enable": false,
+    "editor.semanticTokenColorCustomizations": {
+        "enabled": true,
+        "rules": {
+            "*.mutable": {
+                "underline": false,
+            }
+        }
+    },
+    "workbench.tree.indent": 4,
+    "editor.fontSize": 16,
+    "editor.minimap.size": "fill",
+    "editor.minimap.enabled": false,
+    "editor.renderIndentGuides": false,
+    "rust-analyzer.completion.addCallParenthesis": false,
+    "files.defaultLanguage": "markdown",
+    "editor.quickSuggestionsDelay": 250,
+    "workbench.colorTheme": "One Dark Pro"
 }

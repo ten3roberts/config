@@ -1,10 +1,11 @@
 configuration {
-    combi-modi: "window,drun";
+    combi-modi: "window,drun,ssh";
     show-icons: true;
     modi: "combi";
-    font: "RobotoMono Nerd Font 14";
-    width: 32;
+    font: "Mononoki 14";
+    width: 28;
     drun-match-fields: "exec,name";
+    window-match-fields: "class,name";
 }
 * {
     nord0: #2e3440;

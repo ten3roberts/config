@@ -1,50 +1,173 @@
 HISTFILE=$HOME/.config/zsh/.history
 HISTSIZE=1000
 SAVEHIST=1000
-bindkey -e
 
-# Load wal theme
-(cat ~/.cache/wal/sequences &)
-
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
 # Ignore duplicate entries in history
-setopt hist_ignore_all_dups
+setopt autopushd pushdignoredups hist_ignore_all_dups
+unsetopt autocd
 
-# Autostart X on tty1
-if [[ "$(tty)" == "/dev/tty1" ]]; then
-    prgep xinit || xinit
-fi
-
-if [[ -z "$DISPLAY" ]]; then
-  export TMOUT=300
-fi
-
+### CHANGE TITLE OF TERMINALS
 function chpwd {
-    set_title "st - `basename $PWD`"
+  case ${TERM} in
+    xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|alacritty|st*|konsole*)
+      echo -ne "\033]0;zsh ${PWD/#$HOME/~}\007"
+      ;;
+    screen*)
+      echo -ne "\033_zsh ${PWD/#$HOME/\~}\033\\"
+      ;;
+  esac
 }
 
-setopt autocd autopushd pushdignoredups
+chpwd
+
 
 # Git
 git_prompt() {
-    changes=`git status --porcelain | wc -l` > /dev/null 2>/dev/null
-    # untracked=`git clean -n | wc -l` > /dev/null 2>/dev/null
+  changes=`git status --porcelain | wc -l` > /dev/null 2>/dev/null
+  # untracked=`git clean -n | wc -l` > /dev/null 2>/dev/null
 
-    ref=$(git symbolic-ref HEAD | cut -d'/' -f3) > /dev/null 2>/dev/null
-    [ -n "$ref" ] && echo -n " (%F{3}$ref%F{white}"
-    # [ "$untracked" != "0" ] && echo -n "+"
-    [ "$changes" != "0" ] && echo -n "•"
-    [ -n "$ref" ] && echo ")"
+  ref=$(git symbolic-ref HEAD | cut -d'/' -f3) > /dev/null 2>/dev/null
+  [ -n "$ref" ] && echo -n " (%F{3}$ref%F{white}"
+  # [ "$untracked" != "0" ] && echo -n "+"
+  [ "$changes" != "0" ] && echo -n "•"
+  [ -n "$ref" ] && echo ")"
 }
-
-setopt prompt_subst
 
 # Configure Shell state
 PS1='%F{white}%F{green}%n@%F{magenta}%m%F{white} %F{blue}%3~%(?.%F{white}.%F{red} [%?])%(!.#.>)%F{white} '
 
-# Bind Ctrl+x to open CLI edit in $EDITOR
+
+# Helper functions
+mkcd() { mkdir -p "$@" && cd "$1" }
+# Quick movement aliases
+# alias d='cd `find -maxdepth 3 -type d | fzf` && exa'
+# alias n='cd `find -maxdepth 3 | fzf` && nvim .'
+
+d() {
+  res=`find -maxdepth 3 -type d | fzf`
+  [ -z $res ] && return 1
+  cd $res
+  exa || ls
+}
+
+n() {
+  res=`find -maxdepth 4 | fzf`
+  [ -z $res ] && return 1
+  [ -d $res ] && (cd $res; nvim .)
+  [ -f $res ] && (cd `dirname $res`; nvim `basename $res`)
+}
+
+### ARCHIVE EXTRACTION
+# usage: ex <file>
+ex ()
+{
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1   ;;
+      *.tar.gz)    tar xzf $1   ;;
+      *.bz2)       bunzip2 $1   ;;
+      *.rar)       unrar x $1   ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *.deb)       ar x $1      ;;
+      *.tar.xz)    tar xf $1    ;;
+      *.tar.zst)   unzstd $1    ;;      
+      *)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+### Aliases ###
+
+# navigation
+alias ..='cd ..' 
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+
+
+# Changing "ls" to "exa"
+if type exa >/dev/null; then
+  alias ls='exa -F --group-directories-first' # my preferred listing
+  alias la='exa -Fa --group-directories-first'  # all files and dirs
+  alias ll='exa -l --git --header --group-directories-first'  # long format
+  alias lt='exa -TL 2 --group-directories-first' # tree listing
+  alias l='exa -F --group-directories-first'
+  alias l.='exa -a | egrep "^\."'
+else
+  echo "exa not found, defaulting to ls"
+fi
+
+# Colorize grep output (good for log files)
+alias grep='grep --color=auto'
+alias igrep='grep --color=auto -i'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# Verbose copy and remove
+alias cp="cp -vi"
+alias mv='mv -vi'
+alias rm='rm'
+
+# Rust cargo
+alias cb='cargo build'
+alias cr='cargo run'
+alias ct='cargo test'
+alias clippy='cargo clean && cargo clippy'
+alias cw='cargo watch -c'
+alias cwr='cargo watch -cx run'
+cto() { cargo test $@ -- --show-output }
+
+alias nv='nvim'
+
+# Git aliases
+alias log='git log --oneline'
+alias graph='git log --graph --all --abbrev-commit'
+alias subupdate='git submodule foreach git pull origin master'
+alias status='git status'
+alias branch='git checkout'
+
+alias gc='git commit'
+alias ga='git add -v'
+alias gp='git push'
+alias gl='git log --oneline --max-count=16'
+alias gpl='git pull'
+alias gs='git status'
+alias gd='git diff'
+
+# Quick ssh
+alias remote='ssh timmer@dsu.uk.to'
+
+# Void linux aliases
+alias xi='sudo xbps-install'
+alias xq='xbps-query'
+alias xr='sudo xbps-remove'
+
+alias hc='herbstclient'
+
+alias killbg='kill ${${(v)jobstates##*:*:}%=*}'
+
+alias pipes='pipes.sh -t `shuf -i 0-9 -n 1` -R -p 2 -f 20'
+
+### Plugins ###
+
 export KEYTIMEOUT=1
-autoload edit-command-line; zle -N edit-command-line
+# Basic emacs keybindings
+bindkey -e
+
+# Bind Ctrl+x to open CLI edit in $EDITOR
+autoload edit-command-line
 zle -N edit-command-line
 bindkey '^x' edit-command-line
 
@@ -61,88 +184,11 @@ bindkey "^H" backward-kill-word
 bindkey '\e[1;5C' forward-word            # C-Right
 bindkey '\e[1;5D' backward-word           # C-Left
 
-# Helper functions
-mkcd() { mkdir -p "$@" && cd "$1" }
-conf() { $EDITOR $(find .config -maxdepth 2 -type f | fzf) }
-# Quick movement aliases
-# alias d='cd `find -maxdepth 3 -type d | fzf` && exa'
-# alias n='cd `find -maxdepth 3 | fzf` && nvim .'
-
-d() {
-    res=`find -maxdepth 3 -type d | fzf`
-    [ -z $res ] && return 1
-    cd $res
-    exa || ls
-}
-
-n() {
-    res=`find -maxdepth 4 | fzf`
-    [ -z $res ] && return 1
-    [ -d $res ] && (cd $res; nvim .)
-    [ -f $res ] && (cd `dirname $res`; nvim `basename $res`)
-}
-
-# Aliases
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias mv='mv -v'
-alias cp='cp -v'
-
-alias la='ls -a'
-alias l='ls -F'
-alias ll='ls -lhF'
-alias cl="clear"
-
-# For config file access
-alias bspwmrc="$EDITOR $HOME/.config/bspwm/bspwmrc"
-alias sxhkdrc="$EDITOR $HOME/.config/sxhkd/sxhkdrc"
-alias polyrc="$EDITOR $HOME/.config/polybar/config"
-alias picomrc="$EDITOR $HOME/.config/picom/picom.conf"
-alias build="cmake . && make"
-alias rebuild="cmake . && make clean && make"
-
-# Rust cargo
-alias cb='cargo build'
-alias cr='cargo run'
-alias ct='cargo test'
-alias clippy='cargo clean && cargo clippy'
-alias cw='cargo watch -c'
-alias cwr='cargo watch -cx run'
-cto() { cargo test $@ -- --show-output }
-# Git aliases
-alias log='git log --oneline'
-alias graph='git log --graph --all --abbrev-commit'
-alias subupdate='git submodule foreach git pull origin master'
-alias status='git status'
-alias branch='git checkout'
-
-alias cmake_clang='cmake . -DCMAKE_C_COMPILER=clang -DCMAKE_EXPORT_COMPILE_COMMANDS=1'
-
-alias gc='git commit'
-alias ga='git add -v'
-alias gp='git push'
-alias gl='git log --oneline'
-alias gpl='git pull'
-alias gs='git status'
-alias gd='git diff'
-
-alias remote='ssh timmer@dsu.uk.to'
-
-# Void linux aliases
-alias xi='sudo xbps-install'
-alias xq='xbps-query'
-alias xr='sudo xbps-remove'
-
-alias hc='herbstclient'
-
-alias spt='spotify-tui'
-
-alias killbg='kill ${${(v)jobstates##*:*:}%=*}'
-alias doom='~/.emacs.d/bin/doom'
-
 # Basic auto/tab complete:
 autoload -U compinit
+zmodload zsh/complist
 zstyle ':completion:*' menu select
+
 # zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
@@ -152,8 +198,11 @@ source $HOME/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-alias pipes='pipes.sh -t `shuf -i 0-9 -n 1` -R -p 2 -f 20'
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Start xsession if in tty1
+if [[ "$(tty)" == "/dev/tty1" ]]; then
+  startx
+fi
 
 return 0
