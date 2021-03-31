@@ -1,6 +1,6 @@
 [submodule "nvim"]
 	path = nvim
-	url = ./nvim
+	url = https://github.com/ten3roberts/nvim
 [submodule "zsh/zsh-syntax-highlighting"]
 	path = zsh/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting
