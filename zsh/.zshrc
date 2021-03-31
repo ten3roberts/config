@@ -145,6 +145,8 @@ alias gl='git log --oneline --max-count=16'
 alias gpl='git pull'
 alias gs='git status'
 alias gd='git diff'
+alias gb='git branch'
+alias gds='git diff --stat'
 
 # Quick ssh
 alias remote='ssh timmer@dsu.uk.to'
