@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>terminal</icon>
+	<name>Open Terminal Here</name>
+	<unique-id>1613994424494139-1</unique-id>
+	<command>x-terminal-emulator</command>
+	<description></description>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+</actions>

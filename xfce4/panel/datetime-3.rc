@@ -1,0 +1,6 @@
+layout=0
+date_font=Inter Bold 12
+time_font=Inter 12
+date_format=%H
+time_format=%M
+

@@ -53,7 +53,6 @@
       <property name="XF86Display" type="string" value="xfce4-display-settings --minimal"/>
       <property name="override" type="bool" value="true"/>
       <property name="&lt;Super&gt;Return" type="string" value="exo-open --launch TerminalEmulator"/>
-      <property name="&lt;Primary&gt;&lt;Super&gt;f" type="string" value="switch_app firefox"/>
       <property name="&lt;Shift&gt;&lt;Super&gt;s" type="string" value="xfce4-screenshooter -r"/>
       <property name="&lt;Super&gt;l" type="string" value="xflock4"/>
       <property name="&lt;Super&gt;p" type="string" value="xfce4-popup-whiskermenu"/>
@@ -61,6 +60,7 @@
       <property name="&lt;Primary&gt;&lt;Super&gt;s" type="string" value="switch_app spotify"/>
       <property name="&lt;Primary&gt;&lt;Super&gt;d" type="string" value="switch_app discord"/>
       <property name="Print" type="string" value="xfce4-screenshooter -f"/>
+      <property name="&lt;Primary&gt;&lt;Super&gt;f" type="string" value="firefox"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">
