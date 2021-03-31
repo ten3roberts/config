@@ -1,5 +1,5 @@
 favorites=xfce4-web-browser.desktop,xfce4-file-manager.desktop,xfce4-terminal-emulator.desktop,spotify.desktop,Alacritty.desktop
-recent=blender.desktop,ckb-next.desktop,obconf.desktop,tint2.desktop,tint2conf.desktop,Alacritty.desktop,spotify.desktop,gimp.desktop,xfce-display-settings.desktop,firefox-esr.desktop
+recent=ckb-next.desktop,syncthing-gtk.desktop,syncthing-start.desktop,syncthing-ui.desktop,Alacritty.desktop,blender.desktop,obconf.desktop,tint2.desktop,tint2conf.desktop,spotify.desktop
 button-icon=distributor-logo-debian
 button-single-row=false
 show-button-title=false

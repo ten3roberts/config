@@ -2,7 +2,7 @@ configuration {
     combi-modi: "window,drun,ssh";
     show-icons: true;
     modi: "combi";
-    font: "Mononoki 14";
+    font: "Inter 14";
     width: 28;
     drun-match-fields: "exec,name";
     window-match-fields: "class,name";
