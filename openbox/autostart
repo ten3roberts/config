@@ -1,0 +1,7 @@
+picom &
+setxkbmap -option caps:escape
+xset r rate 200 30
+ckb-next -b &
+dunst &
+tint2 &
+randbg

@@ -6,7 +6,7 @@ SAVEHIST=1000
 [[ $- != *i* ]] && return
 
 # Ignore duplicate entries in history
-setopt autopushd pushdignoredups hist_ignore_all_dups
+setopt autopushd pushdignoredups hist_ignore_all_dups prompt_subst
 unsetopt autocd
 
 ### CHANGE TITLE OF TERMINALS
@@ -37,7 +37,7 @@ git_prompt() {
 }
 
 # Configure Shell state
-PS1='%F{white}%F{green}%n@%F{magenta}%m%F{white} %F{blue}%3~%(?.%F{white}.%F{red} [%?])%(!.#.>)%F{white} '
+PS1='%F{white}%F{green}%n@%F{magenta}%m%F{white} %F{blue}%3~%F{white}$(git_prompt)%(?.%F{white}.%F{red} [%?])%(!.#.>)%F{white} '
 
 
 # Helper functions
@@ -47,14 +47,14 @@ mkcd() { mkdir -p "$@" && cd "$1" }
 # alias n='cd `find -maxdepth 3 | fzf` && nvim .'
 
 d() {
-  res=`find -maxdepth 3 -type d | fzf`
+  res=`fd --hidden --type d --max-depth 4 | fzf`
   [ -z $res ] && return 1
   cd $res
   exa || ls
 }
 
 n() {
-  res=`find -maxdepth 4 | fzf`
+  res=`fd --hidden --max-depth 5 | fzf`
   [ -z $res ] && return 1
   [ -d $res ] && (cd $res; nvim .)
   [ -f $res ] && (cd `dirname $res`; nvim `basename $res`)
@@ -109,9 +109,14 @@ else
   echo "exa not found, defaulting to ls"
 fi
 
+if [[ "$TERM" == "xterm-kitty" ]]; then
+  alias ssh='TERM="xterm-256color" ssh'
+fi
+
 # Colorize grep output (good for log files)
 alias grep='grep --color=auto'
 alias igrep='grep --color=auto -i'
+alias ig='igrep'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
@@ -191,6 +196,7 @@ autoload -U compinit
 zmodload zsh/complist
 zstyle ':completion:*' menu select
 
+fpath+="${ZDOTDIR}/.zsh_functions"
 # zmodload zsh/complist
 compinit
 _comp_options+=(globdots)

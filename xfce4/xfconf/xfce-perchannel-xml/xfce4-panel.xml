@@ -58,6 +58,7 @@
     <property name="plugin-6" type="string" value="systray">
       <property name="square-icons" type="bool" value="false"/>
       <property name="known-legacy-items" type="array">
+        <value type="string" value="redshift-gtk"/>
         <value type="string" value="syncthing"/>
         <value type="string" value="syncthing-gtk"/>
         <value type="string" value="task manager"/>
@@ -103,7 +104,7 @@
       <property name="grouping" type="uint" value="1"/>
       <property name="flat-buttons" type="bool" value="true"/>
       <property name="show-handle" type="bool" value="false"/>
-      <property name="include-all-workspaces" type="bool" value="true"/>
+      <property name="include-all-workspaces" type="bool" value="false"/>
       <property name="show-only-minimized" type="bool" value="false"/>
       <property name="sort-order" type="uint" value="1"/>
       <property name="include-all-monitors" type="bool" value="true"/>
